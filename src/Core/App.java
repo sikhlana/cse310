@@ -1,8 +1,12 @@
 package Core;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
+import org.flywaydb.core.Flyway;
+
+import javax.sql.DataSource;
 
 public class App
 {
@@ -15,10 +19,22 @@ public class App
         Options options = new Options();
 
         options.addOption("nw", "no-web", false, "Disables the web application.")
-               .addOption("np", "no-pos", false, "Disables the point-of-sale application.")
-               .addOption("p", "port", true, "The port number the web app will be accessible from.");
+                .addOption("np", "no-pos", false, "Disables the point-of-sale application.")
+                .addOption("p", "port", true, "The port number the web app will be accessible from.")
+                .addOption("m", "migrate", false, "Runs the migration module.");
 
-        opt = new Args((new DefaultParser()).parse(options, args));
+        CommandLine cmd = (new DefaultParser()).parse(options, args);
+        opt = new Args(cmd);
+
+        if (cmd.hasOption("m"))
+        {
+            Flyway flyway = new Flyway();
+            flyway.setDataSource(getDb());
+            flyway.setLocations("filesystem:./db/migration");
+            flyway.migrate();
+
+            return;
+        }
 
         if (opt.web)
         {
@@ -43,12 +59,37 @@ public class App
         System.err.printf(format + "\n", args);
     }
 
+    private static MysqlDataSource db;
+
+    public static DataSource getDb()
+    {
+        if (db == null)
+        {
+            db = new MysqlDataSource();
+
+            db.setPort(opt.dbport);
+            db.setServerName(opt.dbhost);
+            db.setDatabaseName(opt.dbname);
+
+            db.setUser(opt.dbuser);
+            db.setPassword(opt.dbpasswd);
+        }
+
+        return db;
+    }
+
     public static class Args
     {
         public int port = 8080;
 
         public boolean web = true;
         public boolean pos = true;
+
+        public String dbhost = "localhost";
+        public int dbport = 3306;
+        public String dbname = "cse310";
+        public String dbuser = "root";
+        public String dbpasswd = "";
 
         private Args(CommandLine cmd)
         {
