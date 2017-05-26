@@ -24,11 +24,5 @@ public abstract class AbstractRenderer
         return mimeType;
     }
 
-    abstract public Rendered render();
-
-    public class Rendered
-    {
-        public byte bytes[];
-        public long length;
-    }
+    abstract public String render();
 }

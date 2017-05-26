@@ -2,10 +2,7 @@ package Web;
 
 import fi.iki.elonen.NanoHTTPD;
 
-import java.io.*;
-import java.net.SocketAddress;
-import java.net.URLDecoder;
-import java.util.Hashtable;
+import java.util.List;
 
 public class Request
 {
@@ -14,6 +11,16 @@ public class Request
     Request(NanoHTTPD.IHTTPSession session)
     {
         this.session = session;
+    }
+
+    public String getCookie(String key)
+    {
+        return session.getCookies().read(key);
+    }
+
+    public List<String> getParam(String key)
+    {
+        return session.getParameters().get(key);
     }
 
     public boolean isHead()

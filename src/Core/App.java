@@ -8,6 +8,8 @@ import org.apache.commons.cli.Options;
 import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class App
 {
@@ -77,6 +79,18 @@ public class App
         }
 
         return db;
+    }
+
+    private static DateFormat dateFormat;
+
+    public static DateFormat getDateFormat()
+    {
+        if (dateFormat == null)
+        {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+
+        return dateFormat;
     }
 
     public static class Args

@@ -2,13 +2,11 @@ package Core.Model;
 
 import org.apache.commons.dbutils.QueryRunner;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.text.ParseException;
 
 abstract class Model
 {
-    private String primaryKey = "id";
-    private Collection<Field> fields = new LinkedHashSet<>();
+    private String primaryKey[] = {"id"};
 
     private boolean exists = false;
 
@@ -28,28 +26,53 @@ abstract class Model
         exists = true;
     }
 
-    private static void setFields()
+    interface Field { }
+
+    interface Relation { }
+
+    protected enum Types
     {
-        throw new RuntimeException("This method needs to be overwritten by child classes.");
-    }
+        INT, FLOAT, STRING, BINARY, TEXT, BLOB, BOOLEAN, TIMESTAMP;
 
-    private class Field
-    {
-        final public static int TYPE_INT        = 1;
-        final public static int TYPE_FLOAT      = 2;
-        final public static int TYPE_CHAR       = 3;
-        final public static int TYPE_BINARY     = 4;
-        final public static int TYPE_TEXT       = 5;
-        final public static int TYPE_BLOB       = 6;
-        final public static int TYPE_BOOLEAN    = 7;
-
-        final String name;
-        final int type;
-
-        public Field(String name, int type)
+        public Object cast(String data)
         {
-            this.name = name;
-            this.type = type;
+            switch (this)
+            {
+                case INT:
+                    return Integer.parseInt(data);
+                case FLOAT:
+                    return Float.parseFloat(data);
+                case BOOLEAN:
+                    return Boolean.getBoolean(data);
+                case TIMESTAMP:
+                    try
+                    {
+                        return Core.App.getDateFormat().parse(data);
+                    }
+                    catch (ParseException e)
+                    {
+                        return null;
+                    }
+                default:
+                    return data;
+            }
+        }
+
+        public String toString(Object data)
+        {
+            switch (this)
+            {
+                case INT:
+                    return String.format("%d", (Integer) data);
+                case FLOAT:
+                    return String.format("%f", (Float) data);
+                case BOOLEAN:
+                    return ((Boolean) data) ? "1": "0";
+                case TIMESTAMP:
+                    return Core.App.getDateFormat().format(data);
+                default:
+                    return (String) data;
+            }
         }
     }
 }
