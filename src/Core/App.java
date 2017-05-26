@@ -1,6 +1,7 @@
 package Core;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
@@ -19,9 +20,9 @@ public class App
         Options options = new Options();
 
         options.addOption("nw", "no-web", false, "Disables the web application.")
-                .addOption("np", "no-pos", false, "Disables the point-of-sale application.")
-                .addOption("p", "port", true, "The port number the web app will be accessible from.")
-                .addOption("m", "migrate", false, "Runs the migration module.");
+               .addOption("np", "no-pos", false, "Disables the point-of-sale application.")
+               .addOption("p", "port", true, "The port number the web app will be accessible from.")
+               .addOption("m", "migrate", false, "Runs the migration module.");
 
         CommandLine cmd = (new DefaultParser()).parse(options, args);
         opt = new Args(cmd);
@@ -38,8 +39,8 @@ public class App
 
         if (opt.web)
         {
-            Thread web = new Web.App();
-            web.start();
+            NanoHTTPD web = new Web.App();
+            web.start(opt.timeout, false);
         }
 
         if (opt.pos)
@@ -81,6 +82,7 @@ public class App
     public static class Args
     {
         public int port = 8080;
+        public int timeout = 5000;
 
         public boolean web = true;
         public boolean pos = true;

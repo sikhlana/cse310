@@ -1,19 +1,14 @@
 package Web;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import Web.ViewRenderer.AbstractRenderer;
+import fi.iki.elonen.NanoHTTPD;
 
-public class Response
+import java.io.ByteArrayInputStream;
+
+public class Response extends NanoHTTPD.Response
 {
-    private OutputStream stream;
-
-    Response(OutputStream stream)
+    Response(AbstractRenderer renderer)
     {
-        this.stream = stream;
-    }
-
-    public void send(String resp) throws IOException
-    {
-        stream.write(("HTTP/1.1 200 OK\r\n\r\n" + resp).getBytes("UTF-8"));
+        super(renderer.getResponseStatus(), renderer.getMimeType(), new ByteArrayInputStream(renderer.render().bytes), renderer.render().length);
     }
 }

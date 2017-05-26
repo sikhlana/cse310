@@ -1,29 +1,20 @@
 package Web;
 
-import java.net.ServerSocket;
-import java.net.Socket;
+import fi.iki.elonen.NanoHTTPD;
 
-public class App extends Thread
+public class App extends NanoHTTPD
 {
-    public void run()
+    public App()
     {
-        try
-        {
-            ServerSocket server = new ServerSocket(Core.App.opt.port);
-            Core.App.log("Listening to port %d...", Core.App.opt.port);
+        super(Core.App.opt.port);
+        Core.App.log("Listening to port %d...", Core.App.opt.port);
+    }
 
-            //noinspection InfiniteLoopStatement
-            while (true)
-            {
-                try (Socket socket = server.accept())
-                {
-                    (new Thread(new Controller(socket))).run();
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Core.App.error("Thread/Web Exception: %s", e);
-        }
+    @Override
+    public Response serve(IHTTPSession session)
+    {
+        Core.App.log("%s %s Connecting IP: %s", session.getMethod(), session.getUri(), session.getRemoteIpAddress());
+        FrontController controller = new FrontController(session);
+        return controller.run();
     }
 }

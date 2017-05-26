@@ -15,6 +15,17 @@ abstract class Model
     public void save()
     {
         QueryRunner runner = new QueryRunner(Core.App.getDb());
+
+        if (exists)
+        {
+            ;
+        }
+        else
+        {
+            ;
+        }
+
+        exists = true;
     }
 
     private static void setFields()
@@ -30,6 +41,7 @@ abstract class Model
         final public static int TYPE_BINARY     = 4;
         final public static int TYPE_TEXT       = 5;
         final public static int TYPE_BLOB       = 6;
+        final public static int TYPE_BOOLEAN    = 7;
 
         final String name;
         final int type;
