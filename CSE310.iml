@@ -16,5 +16,6 @@
     <orderEntry type="library" name="mysql-connector-java-5.1.42-bin" level="project" />
     <orderEntry type="library" name="flyway-core-4.2.0" level="project" />
     <orderEntry type="library" name="org.nanohttpd:nanohttpd:2.3.1" level="project" />
+    <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
   </component>
 </module>
