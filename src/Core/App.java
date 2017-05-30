@@ -131,6 +131,8 @@ public class App
         public String dbuser = "root";
         public String dbpasswd = "";
 
+        public String salt = "\\%a#L)[j1t(5\\b%!Esb]|oguUykf\\>]kwW{QDd<Rri/`Yy<^SoTQ8apE-ca+A#Ed";
+
         private Args(CommandLine cmd)
         {
             web = !cmd.hasOption("nw");
