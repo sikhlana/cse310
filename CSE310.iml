@@ -19,5 +19,6 @@
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="ormlite-core-5.0" level="project" />
     <orderEntry type="library" name="ormlite-jdbc-5.0" level="project" />
+    <orderEntry type="library" name="jtwig-core-5.85.3.RELEASE" level="project" />
   </component>
 </module>
