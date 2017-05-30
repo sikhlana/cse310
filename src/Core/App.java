@@ -5,6 +5,7 @@ import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
@@ -60,6 +61,11 @@ public class App
     public static void error(String format, Object ...args)
     {
         System.err.printf(format + "\n", args);
+    }
+
+    public static void dump(Object obj)
+    {
+        System.out.println(ReflectionToStringBuilder.toString(obj));
     }
 
     private static MysqlDataSource db;

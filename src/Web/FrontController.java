@@ -4,6 +4,9 @@ import Core.ParameterBag;
 import Web.Controller.AbstractController;
 import Web.ControllerResponse.AbstractResponse;
 import Web.ControllerResponse.ResponseException;
+import com.github.sommeri.less4j.Less4jException;
+import com.github.sommeri.less4j.LessCompiler;
+import com.github.sommeri.less4j.core.DefaultLessCompiler;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -42,6 +45,11 @@ public class FrontController
             return returnBasicErrorHtml(exception.getCode());
         }
 
+        if (request.getPath().endsWith(".css"))
+        {
+            return returnCssOutput();
+        }
+
         try
         {
             session = new Session(this);
@@ -50,11 +58,13 @@ public class FrontController
             Router router = new Router();
             Router.Match matched = router.match(request, params);
 
-            AbstractResponse controllerResponse;
-            boolean breakLoop = true;
+            AbstractResponse controllerResponse = null;
+            boolean breakLoop; int count = 0;
 
             do
             {
+                breakLoop = true;
+
                 AbstractController controller = matched.controllerName.newInstance();
                 controller.setFrontController(this);
                 controller.setRouteMatch(matched);
@@ -62,6 +72,9 @@ public class FrontController
                 try
                 {
                     String action = WordUtils.capitalizeFully(matched.action.replaceAll("-", " ").trim());
+                    action = action.replaceAll(" ", "");
+
+                    controller.preDispatch(action);
                     action = String.format("action%s", action);
 
                     try
@@ -77,6 +90,12 @@ public class FrontController
                         {
                             actionMethod = matched.controllerName.getDeclaredMethod(action);
                             controllerResponse = (AbstractResponse) actionMethod.invoke(controller);
+                        }
+
+                        if (controllerResponse == null)
+                        {
+                            matched = router.getServerErrorRouteMatch();
+                            breakLoop = false;
                         }
                     }
                     catch (NoSuchMethodException e)
@@ -96,8 +115,12 @@ public class FrontController
                     breakLoop = false;
                 }
             }
-            while (!breakLoop);
+            while (!breakLoop && count++ < 100);
 
+            if (!breakLoop)
+            {
+                throw new Exception("Unable to resolve the route path to a controller response.");
+            }
 
         }
         catch (Exception e)
@@ -106,6 +129,28 @@ public class FrontController
         }
 
         return returnBasicErrorHtml(500);
+    }
+
+    private NanoHTTPD.Response returnCssOutput()
+    {
+        try
+        {
+            File file = new File("./resources/less/app.less");
+
+            LessCompiler compiler = new DefaultLessCompiler();
+            LessCompiler.CompilationResult result = compiler.compile(file);
+
+            String output = result.getCss();
+
+            return new Response.HttpResponse(
+                    NanoHTTPD.Response.Status.OK, "text/css",
+                    new ByteArrayInputStream(output.getBytes()), (long) output.length()
+            );
+        }
+        catch (Less4jException e)
+        {
+            return returnBasicErrorHtml(500);
+        }
     }
 
     private NanoHTTPD.Response returnBasicErrorHtml(int code)
@@ -125,7 +170,7 @@ public class FrontController
 
             return new Response.HttpResponse(
                     NanoHTTPD.Response.Status.INTERNAL_ERROR, "text/html",
-                    new ByteArrayInputStream(msg.getBytes()), msg.length()
+                    new ByteArrayInputStream(msg.getBytes()), (long) msg.length()
             );
         }
     }

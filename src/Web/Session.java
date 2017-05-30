@@ -8,4 +8,9 @@ public class Session
     {
         this.fc = fc;
     }
+
+    public String getCsrfToken()
+    {
+        return null;
+    }
 }

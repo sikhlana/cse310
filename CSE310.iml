@@ -19,5 +19,6 @@
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="jtwig-core-5.85.3.RELEASE" level="project" />
     <orderEntry type="library" name="commons-lang3-3.5" level="project" />
+    <orderEntry type="library" name="less4j-1.17.2" level="project" />
   </component>
 </module>
