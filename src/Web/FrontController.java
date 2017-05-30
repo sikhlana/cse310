@@ -1,9 +1,14 @@
 package Web;
 
 import Core.ParameterBag;
+import Web.Controller.AbstractController;
+import Web.ControllerResponse.AbstractResponse;
+import Web.ControllerResponse.ResponseException;
 import fi.iki.elonen.NanoHTTPD;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.util.Date;
 
 public class FrontController
@@ -44,6 +49,56 @@ public class FrontController
 
             Router router = new Router();
             Router.Match matched = router.match(request, params);
+
+            AbstractResponse controllerResponse;
+            boolean breakLoop = true;
+
+            do
+            {
+                AbstractController controller = matched.controllerName.newInstance();
+                controller.setFrontController(this);
+                controller.setRouteMatch(matched);
+
+                try
+                {
+                    String action = WordUtils.capitalizeFully(matched.action.replaceAll("-", " ").trim());
+                    action = String.format("action%s", action);
+
+                    try
+                    {
+                        Method actionMethod;
+
+                        try
+                        {
+                            actionMethod = matched.controllerName.getDeclaredMethod(action, ParameterBag.class);
+                            controllerResponse = (AbstractResponse) actionMethod.invoke(controller, params);
+                        }
+                        catch (NoSuchMethodException ignore)
+                        {
+                            actionMethod = matched.controllerName.getDeclaredMethod(action);
+                            controllerResponse = (AbstractResponse) actionMethod.invoke(controller);
+                        }
+                    }
+                    catch (NoSuchMethodException e)
+                    {
+                        matched = router.getNotFoundErrorRouteMatch();
+                        breakLoop = false;
+                    }
+                }
+                catch (ResponseException e)
+                {
+                    controllerResponse = e.response;
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                    matched = router.getServerErrorRouteMatch();
+                    breakLoop = false;
+                }
+            }
+            while (!breakLoop);
+
+
         }
         catch (Exception e)
         {

@@ -1,8 +1,8 @@
 package Web.ControllerResponse;
 
-public class ResponseException extends Exception
+public class ResponseException extends RuntimeException
 {
-    public AbstractResponse response;
+    final public AbstractResponse response;
 
     public ResponseException(AbstractResponse response)
     {
