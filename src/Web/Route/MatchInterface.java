@@ -5,7 +5,7 @@ import Web.Controller.AbstractController;
 import Web.Request;
 import Web.Router;
 
-interface MatchInterface
+public interface MatchInterface
 {
-    AbstractController match(String path, Router router, ParameterBag params);
+    Router.Match match(String path, Router router, ParameterBag params);
 }

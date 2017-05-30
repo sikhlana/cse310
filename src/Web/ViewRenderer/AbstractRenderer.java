@@ -16,7 +16,7 @@ public abstract class AbstractRenderer
 
     public NanoHTTPD.Response.IStatus getResponseStatus()
     {
-        return Response.Status.lookup(response.code);
+        return NanoHTTPD.Response.Status.lookup(response.code);
     }
 
     public String getMimeType()

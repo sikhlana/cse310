@@ -8,9 +8,21 @@ public class Request
 {
     private NanoHTTPD.IHTTPSession session;
 
-    Request(NanoHTTPD.IHTTPSession session)
+    Request(NanoHTTPD.IHTTPSession session) throws InvalidRequestException
     {
         this.session = session;
+
+        switch (session.getMethod())
+        {
+            case HEAD:
+            case GET:
+            case POST:
+            case DELETE:
+                break;
+
+            default:
+                throw new InvalidRequestException(405);
+        }
     }
 
     public String getCookie(String key)
@@ -18,9 +30,20 @@ public class Request
         return session.getCookies().read(key);
     }
 
+    public String getPath()
+    {
+        return session.getUri();
+    }
+
     public List<String> getParam(String key)
     {
         return session.getParameters().get(key);
+    }
+
+    public boolean isAjax()
+    {
+        return session.getHeaders().containsKey("X-Requested-With")
+                && session.getHeaders().get("X-Requested-With").equals("XMLHttpRequest");
     }
 
     public boolean isHead()

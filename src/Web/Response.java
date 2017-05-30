@@ -25,14 +25,19 @@ public class Response
         session.getCookies().set(name, value, expires);
     }
 
-    NanoHTTPD.Response send(AbstractRenderer renderer)
+    public void unsetCookie(String name)
     {
-
+        session.getCookies().delete(name);
     }
 
-    public class HttpResponse extends NanoHTTPD.Response
+    NanoHTTPD.Response send(AbstractRenderer renderer)
     {
-        private HttpResponse(NanoHTTPD.Response.IStatus status, String mimeType, InputStream data, long totalBytes)
+        return null;
+    }
+
+    public static class HttpResponse extends NanoHTTPD.Response
+    {
+        public HttpResponse(NanoHTTPD.Response.IStatus status, String mimeType, InputStream data, long totalBytes)
         {
             super(status, mimeType, data, totalBytes);
         }
