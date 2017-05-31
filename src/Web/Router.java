@@ -97,7 +97,7 @@ public class Router
 
     public String getRoutePath(Request request)
     {
-        return request.getPath().replaceAll("(^/)|(/$)", "");
+        return request.getPath().replaceAll("(^/|/$)", "");
     }
 
     public static class Match
