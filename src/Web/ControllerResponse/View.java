@@ -5,7 +5,7 @@ import Web.View.Base;
 import java.util.HashMap;
 import java.util.Map;
 
-public class View extends AbstractResponse
+public class View extends Abstract
 {
     public Class<? extends Base> view = null;
 

@@ -2,9 +2,9 @@ package Web.ControllerResponse;
 
 public class ResponseException extends RuntimeException
 {
-    final public AbstractResponse response;
+    final public Abstract response;
 
-    public ResponseException(AbstractResponse response)
+    public ResponseException(Abstract response)
     {
         this.response = response;
     }

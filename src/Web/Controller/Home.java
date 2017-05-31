@@ -1,11 +1,8 @@
 package Web.Controller;
 
-import Web.ControllerResponse.AbstractResponse;
-import Web.ControllerResponse.View;
-
-public class Home extends AbstractController
+public class Home extends Abstract
 {
-    public AbstractResponse actionIndex()
+    public Web.ControllerResponse.Abstract actionIndex()
     {
         return null;
         //return new View("something");

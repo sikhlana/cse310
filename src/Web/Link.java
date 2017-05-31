@@ -1,5 +1,6 @@
 package Web;
 
+import Core.Entity.Abstract;
 import Web.Route.BuildInterface;
 
 import java.util.Map;
@@ -42,10 +43,20 @@ public class Link
         this.data = data;
     }
 
+    public Link(String route, Abstract entity)
+    {
+        this(route, entity.map());
+    }
+
     public Link(String route, Map<String, Object> data, Map<String, Object> params)
     {
         this(route, data);
         this.params = params;
+    }
+
+    public Link(String route, Abstract entity, Map<String, Object> params)
+    {
+        this(route, entity.map(), params);
     }
 
     public String toString()

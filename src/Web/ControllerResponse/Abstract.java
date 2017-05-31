@@ -1,10 +1,10 @@
 package Web.ControllerResponse;
 
-public abstract class AbstractResponse
+public abstract class Abstract
 {
     public int code = 200;
 
-    public AbstractResponse(int code)
+    public Abstract(int code)
     {
         this.code = code;
     }

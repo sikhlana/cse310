@@ -5,7 +5,7 @@ import Web.ControllerResponse.Error;
 import Web.FrontController;
 import Web.Router;
 
-abstract public class AbstractController
+abstract public class Abstract
 {
     private FrontController fc;
     private Router.Match routeMatch;

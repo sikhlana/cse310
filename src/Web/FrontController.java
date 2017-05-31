@@ -1,8 +1,7 @@
 package Web;
 
 import Core.ParameterBag;
-import Web.Controller.AbstractController;
-import Web.ControllerResponse.AbstractResponse;
+import Web.Controller.Abstract;
 import Web.ControllerResponse.ResponseException;
 import com.github.sommeri.less4j.Less4jException;
 import com.github.sommeri.less4j.LessCompiler;
@@ -58,14 +57,14 @@ public class FrontController
             Router router = new Router();
             Router.Match matched = router.match(request, params);
 
-            AbstractResponse controllerResponse = null;
+            Web.ControllerResponse.Abstract controllerResponse = null;
             boolean breakLoop; int count = 0;
 
             do
             {
                 breakLoop = true;
 
-                AbstractController controller = matched.controllerName.newInstance();
+                Abstract controller = matched.controllerName.newInstance();
                 controller.setFrontController(this);
                 controller.setRouteMatch(matched);
 
@@ -84,12 +83,12 @@ public class FrontController
                         try
                         {
                             actionMethod = matched.controllerName.getDeclaredMethod(action, ParameterBag.class);
-                            controllerResponse = (AbstractResponse) actionMethod.invoke(controller, params);
+                            controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller, params);
                         }
                         catch (NoSuchMethodException ignore)
                         {
                             actionMethod = matched.controllerName.getDeclaredMethod(action);
-                            controllerResponse = (AbstractResponse) actionMethod.invoke(controller);
+                            controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller);
                         }
 
                         if (controllerResponse == null)

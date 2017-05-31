@@ -1,10 +1,10 @@
 package Web.ViewRenderer;
 
-import Web.ControllerResponse.AbstractResponse;
+import Web.ControllerResponse.Abstract;
 
-public class Raw extends AbstractRenderer
+public class Raw extends Web.ViewRenderer.Abstract
 {
-    Raw(AbstractResponse response)
+    Raw(Abstract response)
     {
         super(response);
     }

@@ -1,10 +1,10 @@
 package Web.ViewRenderer;
 
-import Web.ControllerResponse.AbstractResponse;
+import Web.ControllerResponse.Abstract;
 
-public class Html extends AbstractRenderer
+public class Html extends Web.ViewRenderer.Abstract
 {
-    Html(AbstractResponse response)
+    Html(Abstract response)
     {
         super(response);
     }

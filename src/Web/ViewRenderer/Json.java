@@ -1,10 +1,10 @@
 package Web.ViewRenderer;
 
-import Web.ControllerResponse.AbstractResponse;
+import Web.ControllerResponse.Abstract;
 
-public class Json extends AbstractRenderer
+public class Json extends Web.ViewRenderer.Abstract
 {
-    Json(AbstractResponse response)
+    Json(Abstract response)
     {
         super(response);
     }

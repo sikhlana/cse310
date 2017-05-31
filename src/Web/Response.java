@@ -1,9 +1,8 @@
 package Web;
 
-import Web.ViewRenderer.AbstractRenderer;
+import Web.ViewRenderer.Abstract;
 import fi.iki.elonen.NanoHTTPD;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 public class Response
@@ -30,7 +29,7 @@ public class Response
         session.getCookies().delete(name);
     }
 
-    NanoHTTPD.Response send(AbstractRenderer renderer)
+    NanoHTTPD.Response send(Abstract renderer)
     {
         return null;
     }

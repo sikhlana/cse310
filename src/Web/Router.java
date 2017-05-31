@@ -1,7 +1,7 @@
 package Web;
 
 import Core.*;
-import Web.Controller.AbstractController;
+import Web.Controller.Abstract;
 import Web.Route.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -102,18 +102,18 @@ public class Router
 
     public static class Match
     {
-        final public Class<? extends AbstractController> controllerName;
+        final public Class<? extends Abstract> controllerName;
         final public String action;
         final public String section;
 
         public String responseType = "html";
 
-        public Match(Class<? extends AbstractController> controllerName, String action)
+        public Match(Class<? extends Abstract> controllerName, String action)
         {
             this(controllerName, action, null);
         }
 
-        public Match(Class<? extends AbstractController> controllerName, String action, String section)
+        public Match(Class<? extends Abstract> controllerName, String action, String section)
         {
             this.controllerName = controllerName;
             this.action = action;

@@ -2,7 +2,7 @@ package Web.ControllerResponse;
 
 import Web.Link;
 
-public class Redirect extends AbstractResponse
+public class Redirect extends Abstract
 {
     public Link target;
 

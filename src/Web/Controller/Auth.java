@@ -1,5 +1,5 @@
 package Web.Controller;
 
-public class Auth extends AbstractController
+public class Auth extends Abstract
 {
 }

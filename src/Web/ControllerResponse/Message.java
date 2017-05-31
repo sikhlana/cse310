@@ -1,6 +1,6 @@
 package Web.ControllerResponse;
 
-public class Message extends AbstractResponse
+public class Message extends Abstract
 {
     public String message = null;
 

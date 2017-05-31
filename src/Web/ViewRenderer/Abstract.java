@@ -1,15 +1,13 @@
 package Web.ViewRenderer;
 
-import Web.ControllerResponse.AbstractResponse;
-import Web.Response;
 import fi.iki.elonen.NanoHTTPD;
 
-public abstract class AbstractRenderer
+public abstract class Abstract
 {
-    private AbstractResponse response;
+    private Web.ControllerResponse.Abstract response;
     private String mimeType = "text/html";
 
-    AbstractRenderer(AbstractResponse response)
+    Abstract(Web.ControllerResponse.Abstract response)
     {
         this.response = response;
     }

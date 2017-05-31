@@ -1,6 +1,6 @@
 package Web.ControllerResponse;
 
-public class Error extends AbstractResponse
+public class Error extends Abstract
 {
     public String error = "An unexpected error occurred.";
 
