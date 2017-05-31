@@ -6,7 +6,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "customers", daoClass = Core.EntityManager.Customer.class)
-public class Customer extends Abstract
+public class Customer extends Abstract<Customer, Integer>
 {
     @DatabaseField(id = true)
     public int user_id;
