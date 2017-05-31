@@ -106,7 +106,7 @@ public class Router
         final public String action;
         final public String section;
 
-        public String responseType = "html";
+        public String responseType = null;
 
         public Match(Class<? extends Abstract> controllerName, String action)
         {
