@@ -3,6 +3,10 @@ package Web;
 import Core.ParameterBag;
 import Web.Controller.Abstract;
 import Web.ControllerResponse.ResponseException;
+import Web.ControllerResponse.View;
+import Web.ViewRenderer.Html;
+import Web.ViewRenderer.Json;
+import Web.ViewRenderer.Raw;
 import com.github.sommeri.less4j.Less4jException;
 import com.github.sommeri.less4j.LessCompiler;
 import com.github.sommeri.less4j.core.DefaultLessCompiler;
@@ -64,6 +68,11 @@ public class FrontController
             {
                 breakLoop = true;
 
+                if (matched.responseType == null)
+                {
+                    matched.responseType = request.isAjax() ? "json" : "html";
+                }
+
                 Abstract controller = matched.controllerName.newInstance();
                 controller.setFrontController(this);
                 controller.setRouteMatch(matched);
@@ -121,6 +130,23 @@ public class FrontController
                 throw new Exception("Unable to resolve the route path to a controller response.");
             }
 
+            Web.ViewRenderer.Abstract renderer;
+
+            switch (matched.responseType)
+            {
+                case "html":
+                    renderer = new Html(controllerResponse, this);
+                    break;
+
+                case "json":
+                    renderer = new Json(controllerResponse, this);
+                    break;
+
+                default:
+                    renderer = new Raw(controllerResponse, this);
+            }
+
+            return response.send(renderer);
         }
         catch (Exception e)
         {
