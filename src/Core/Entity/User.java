@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "users", daoClass = Core.EntityManager.User.class)
-public class User
+public class User extends Abstract
 {
     @DatabaseField(generatedId = true)
     public int id;

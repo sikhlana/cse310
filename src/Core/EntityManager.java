@@ -1,12 +1,31 @@
 package Core;
 
+import Core.Entity.Abstract;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.DaoManager;
 
+import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class EntityManager extends DaoManager
 {
+    public static HashMap<String, Object> mapEntity(Abstract entity)
+    {
+        HashMap<String, Object> map = new HashMap<>();
+
+        for (Field field : entity.getClass().getDeclaredFields())
+        {
+            try
+            {
+                map.put(field.getName(), field.get(entity));
+            }
+            catch (IllegalAccessException ignored) { }
+        }
+
+        return map;
+    }
+
     static abstract class Base<T, ID> extends BaseDaoImpl<T, ID>
     {
         Base(Class<T> dataClass) throws SQLException
