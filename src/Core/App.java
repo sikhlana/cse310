@@ -1,5 +1,7 @@
 package Core;
 
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.cli.CommandLine;
@@ -9,6 +11,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -85,6 +88,27 @@ public class App
         }
 
         return db;
+    }
+
+    private static ConnectionSource source;
+
+    public static ConnectionSource getDbConnectionSource()
+    {
+        if (source == null || !source.isOpen(null))
+        {
+            try
+            {
+                source = new JdbcConnectionSource(String.format(
+                        "jdbc:mysql://%s:%d/%s", opt.dbhost, opt.dbport, opt.dbname
+                ), opt.dbuser, opt.dbpasswd);
+            }
+            catch (SQLException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
+        return source;
     }
 
     private static DateFormat dateFormat;

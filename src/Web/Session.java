@@ -1,6 +1,6 @@
 package Web;
 
-public class Session
+public class Session implements Core.Session
 {
     private FrontController fc;
 
