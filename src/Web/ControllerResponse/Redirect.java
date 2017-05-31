@@ -4,7 +4,8 @@ import Web.Link;
 
 public class Redirect extends Abstract
 {
-    public Link target;
+    public Link target = null;
+    public String basic = null;
 
     public Redirect(Link target)
     {
@@ -15,5 +16,16 @@ public class Redirect extends Abstract
     {
         super(code);
         this.target = target;
+    }
+
+    public Redirect(String target)
+    {
+        this(target, 307);
+    }
+
+    public Redirect(String target, int code)
+    {
+        super(code);
+        this.basic = target;
     }
 }

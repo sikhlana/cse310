@@ -2,6 +2,7 @@ package Web;
 
 import Core.ParameterBag;
 import Web.Controller.Abstract;
+import Web.ControllerResponse.Redirect;
 import Web.ControllerResponse.ResponseException;
 import Web.ControllerResponse.View;
 import Web.ViewRenderer.Html;
@@ -15,6 +16,8 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Date;
 
 public class FrontController
@@ -53,6 +56,11 @@ public class FrontController
             return returnCssOutput();
         }
 
+        if (request.getPath().startsWith("/static/"))
+        {
+            return returnStaticFile(request.getPath().substring(8));
+        }
+
         try
         {
             session = new Session(this);
@@ -81,6 +89,9 @@ public class FrontController
                 {
                     String action = WordUtils.capitalizeFully(matched.action.replaceAll("-", " ").trim());
                     action = action.replaceAll(" ", "");
+
+                    params.put("_controller", matched.controllerName.getName());
+                    params.put("_action", action);
 
                     controller.preDispatch(action);
                     action = String.format("action%s", action);
@@ -130,6 +141,11 @@ public class FrontController
                 throw new Exception("Unable to resolve the route path to a controller response.");
             }
 
+            if (controllerResponse instanceof Redirect)
+            {
+                return returnHttpRedirect((Redirect) controllerResponse);
+            }
+
             Web.ViewRenderer.Abstract renderer;
 
             switch (matched.responseType)
@@ -169,7 +185,7 @@ public class FrontController
 
             return new Response.HttpResponse(
                     NanoHTTPD.Response.Status.OK, "text/css",
-                    new ByteArrayInputStream(output.getBytes()), (long) output.length()
+                    new ByteArrayInputStream(App.getBytes(output)), (long) output.length()
             );
         }
         catch (Less4jException e)
@@ -178,11 +194,41 @@ public class FrontController
         }
     }
 
+    private NanoHTTPD.Response returnHttpRedirect(Redirect response)
+    {
+        String location = response.target == null ? response.basic : response.target.toString();
+
+        NanoHTTPD.Response http = new Response.HttpResponse(
+                NanoHTTPD.Response.Status.lookup(response.code), "text/html",
+                new ByteArrayInputStream(new byte[]{}), 0L
+        );
+
+        http.addHeader("Location", location);
+        return http;
+    }
+
+    private NanoHTTPD.Response returnStaticFile(String path)
+    {
+        try
+        {
+            File file = new File(String.format("./resources/static/%s", path));
+
+            return new Response.HttpResponse(
+                    NanoHTTPD.Response.Status.OK, Files.probeContentType(file.toPath()),
+                    new FileInputStream(file), file.length()
+            );
+        }
+        catch (IOException e)
+        {
+            return returnBasicErrorHtml(404);
+        }
+    }
+
     private NanoHTTPD.Response returnBasicErrorHtml(int code)
     {
         try
         {
-            File file = new File(String.format("./static/error/%d.html", code));
+            File file = new File(String.format("./resources/error/%d.html", code));
 
             return new Response.HttpResponse(
                     NanoHTTPD.Response.Status.lookup(code), "text/html",
@@ -195,7 +241,7 @@ public class FrontController
 
             return new Response.HttpResponse(
                     NanoHTTPD.Response.Status.INTERNAL_ERROR, "text/html",
-                    new ByteArrayInputStream(msg.getBytes()), (long) msg.length()
+                    new ByteArrayInputStream(App.getBytes(msg)), (long) msg.length()
             );
         }
     }

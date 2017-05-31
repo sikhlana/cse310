@@ -1,15 +1,21 @@
 package Web.ViewRenderer;
 
+import Core.App;
+import Web.FrontController;
 import fi.iki.elonen.NanoHTTPD;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 public abstract class Abstract
 {
-    private Web.ControllerResponse.Abstract response;
-    private String mimeType = "text/html";
+    private FrontController fc;
+    protected Web.ControllerResponse.Abstract response;
 
-    Abstract(Web.ControllerResponse.Abstract response)
+    Abstract(Web.ControllerResponse.Abstract response, FrontController fc)
     {
         this.response = response;
+        this.fc = fc;
     }
 
     public NanoHTTPD.Response.IStatus getResponseStatus()
@@ -17,10 +23,17 @@ public abstract class Abstract
         return NanoHTTPD.Response.Status.lookup(response.code);
     }
 
-    public String getMimeType()
-    {
-        return mimeType;
-    }
+    abstract public String getMimeType();
 
     abstract public String render();
+
+    public InputStream getStream()
+    {
+        return new ByteArrayInputStream(Web.App.getBytes(render()));
+    }
+
+    public long getContentLength()
+    {
+        return 0L;
+    }
 }

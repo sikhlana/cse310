@@ -1,12 +1,19 @@
 package Web.ViewRenderer;
 
 import Web.ControllerResponse.Abstract;
+import Web.FrontController;
 
 public class Html extends Web.ViewRenderer.Abstract
 {
-    Html(Abstract response)
+    public Html(Abstract response, FrontController fc)
     {
-        super(response);
+        super(response, fc);
+    }
+
+    @Override
+    public String getMimeType()
+    {
+        return "text/html; charset=UTF-8";
     }
 
     @Override

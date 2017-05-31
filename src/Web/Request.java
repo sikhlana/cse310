@@ -42,8 +42,9 @@ public class Request
 
     public boolean isAjax()
     {
-        return session.getHeaders().containsKey("X-Requested-With")
-                && session.getHeaders().get("X-Requested-With").equals("XMLHttpRequest");
+        return true;
+        /*return session.getHeaders().containsKey("X-Requested-With")
+                && session.getHeaders().get("X-Requested-With").equals("XMLHttpRequest");*/
     }
 
     public boolean isHead()

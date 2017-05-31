@@ -2,6 +2,8 @@ package Web;
 
 import fi.iki.elonen.NanoHTTPD;
 
+import java.io.UnsupportedEncodingException;
+
 public class App extends NanoHTTPD
 {
     public App()
@@ -16,5 +18,17 @@ public class App extends NanoHTTPD
         Core.App.log("%s %s Connecting IP: %s", session.getMethod(), session.getUri(), session.getRemoteIpAddress());
         FrontController controller = new FrontController(session);
         return controller.run();
+    }
+
+    public static byte[] getBytes(String str)
+    {
+        try
+        {
+            return str.getBytes(Core.App.ENCODING);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return str.getBytes();
+        }
     }
 }
