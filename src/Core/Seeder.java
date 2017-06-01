@@ -15,7 +15,8 @@ public class Seeder
         user.name = "Saif Mahmud";
         user.email = "sikhlana@gmail.com";
         user.phone_number = "(880) 175 7111 189";
-        user.password = Hash.generate("04275020", Hash.getGlobalSalt());
+        user.password = "c03c2a1841e23d1dc21008bdc95af2a26a801ad9cf1d676fab54fab3dfae69bf";
+        user.is_staff = true;
 
         create(user);
     }

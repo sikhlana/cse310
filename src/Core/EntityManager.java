@@ -64,9 +64,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.Coupon.class);
         }
 
-        Coupon(ConnectionSource source, Class<Core.Entity.Coupon> dataClass) throws SQLException
+        public Coupon(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.Coupon.class);
         }
     }
 
@@ -77,9 +77,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.Invoice.class);
         }
 
-        Invoice(ConnectionSource source, Class<Core.Entity.Invoice> dataClass) throws SQLException
+        public Invoice(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.Invoice.class);
         }
     }
 
@@ -90,9 +90,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.Order.class);
         }
 
-        Order(ConnectionSource source, Class<Core.Entity.Order> dataClass) throws SQLException
+        public Order(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.Order.class);
         }
     }
 
@@ -103,9 +103,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.Product.class);
         }
 
-        Product(ConnectionSource source, Class<Core.Entity.Product> dataClass) throws SQLException
+        public Product(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.Product.class);
         }
     }
 
@@ -116,9 +116,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.Rental.class);
         }
 
-        Rental(ConnectionSource source, Class<Core.Entity.Rental> dataClass) throws SQLException
+        public Rental(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.Rental.class);
         }
     }
 
@@ -129,9 +129,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.Supplier.class);
         }
 
-        Supplier(ConnectionSource source, Class<Core.Entity.Supplier> dataClass) throws SQLException
+        public Supplier(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.Supplier.class);
         }
     }
 
@@ -142,9 +142,9 @@ public class EntityManager extends DaoManager
             super(Core.Entity.User.class);
         }
 
-        User(ConnectionSource source, Class<Core.Entity.User> dataClass) throws SQLException
+        public User(ConnectionSource source) throws SQLException
         {
-            super(source, dataClass);
+            super(source, Core.Entity.User.class);
         }
     }
 }

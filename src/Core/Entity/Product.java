@@ -31,7 +31,7 @@ public class Product extends Abstract<Product, Integer>
     public String meta;
 
     @DatabaseField(canBeNull = false, foreign = true)
-    public int supplier;
+    public Supplier supplier;
 
     @DatabaseField(canBeNull = false)
     public double price;
