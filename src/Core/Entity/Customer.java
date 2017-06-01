@@ -3,16 +3,17 @@ package Core.Entity;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.stmt.query.In;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "customers", daoClass = Core.EntityManager.Customer.class)
-public class Customer extends Abstract
+public class Customer extends Abstract<Customer, Integer>
 {
     @DatabaseField(id = true)
     public int user_id;
 
     @DatabaseField(defaultValue = "0")
-    public int purchase_points;
+    public int purchase_point;
 
     @DatabaseField
     public String billing_street_1;
@@ -45,4 +46,10 @@ public class Customer extends Abstract
 
     @ForeignCollectionField
     public ForeignCollection<Order> orders;
+
+    @ForeignCollectionField
+    public ForeignCollection<Invoice> invoices;
+
+    @ForeignCollectionField
+    public ForeignCollection<Rental> rentals;
 }

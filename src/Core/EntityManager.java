@@ -32,29 +32,13 @@ public class EntityManager extends DaoManager
         {
             super(Core.App.getDbConnectionSource(), dataClass);
         }
-
-        @Override
-        public int update(T data) throws SQLException
-        {
-            setUpdatedAt(data);
-            return super.update(data);
-        }
-
-        private void setUpdatedAt(T data)
-        {
-            try
-            {
-                data.getClass().getField("updated_at").set(data, new java.util.Date());
-            }
-            catch (NoSuchFieldException | IllegalAccessException ignored) { }
-        }
     }
 
-    public static class User extends Base<Core.Entity.User, Integer>
+    public static class Coupon extends Base<Core.Entity.Coupon, Integer>
     {
-        public User() throws SQLException
+        public Coupon() throws SQLException
         {
-            super(Core.Entity.User.class);
+            super(Core.Entity.Coupon.class);
         }
     }
 
@@ -66,11 +50,51 @@ public class EntityManager extends DaoManager
         }
     }
 
+    public static class Invoice extends Base<Core.Entity.Invoice, Integer>
+    {
+        public Invoice() throws SQLException
+        {
+            super(Core.Entity.Invoice.class);
+        }
+    }
+
     public static class Order extends Base<Core.Entity.Order, Integer>
     {
         public Order() throws SQLException
         {
             super(Core.Entity.Order.class);
+        }
+    }
+
+    public static class Product extends Base<Core.Entity.Product, Integer>
+    {
+        public Product() throws SQLException
+        {
+            super(Core.Entity.Product.class);
+        }
+    }
+
+    public static class Rental extends Base<Core.Entity.Rental, Integer>
+    {
+        public Rental() throws SQLException
+        {
+            super(Core.Entity.Rental.class);
+        }
+    }
+
+    public static class Supplier extends Base<Core.Entity.Supplier, Integer>
+    {
+        public Supplier() throws SQLException
+        {
+            super(Core.Entity.Supplier.class);
+        }
+    }
+
+    public static class User extends Base<Core.Entity.User, Integer>
+    {
+        public User() throws SQLException
+        {
+            super(Core.Entity.User.class);
         }
     }
 }

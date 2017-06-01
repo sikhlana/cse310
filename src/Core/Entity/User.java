@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "users", daoClass = Core.EntityManager.User.class)
-public class User extends Abstract
+public class User extends Abstract<User, Integer>
 {
     @DatabaseField(generatedId = true)
     public int id;
@@ -34,10 +34,4 @@ public class User extends Abstract
 
     @DatabaseField(foreign = true, foreignColumnName = "user_id", readOnly = true)
     public Customer customer;
-
-    public User()
-    {
-        created_at = new Date();
-        updated_at = new Date();
-    }
 }
