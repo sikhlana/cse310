@@ -60,6 +60,10 @@ public class FrontController
         {
             return returnStaticFile(request.getPath().substring(8));
         }
+        else if (request.getPath().equals("/favicon.ico"))
+        {
+            return returnStaticFile(request.getPath());
+        }
 
         try
         {
