@@ -70,19 +70,6 @@ public class EntityManager extends DaoManager
         }
     }
 
-    public static class Customer extends Base<Core.Entity.Customer, Integer>
-    {
-        public Customer() throws SQLException
-        {
-            super(Core.Entity.Customer.class);
-        }
-
-        Customer(ConnectionSource source, Class<Core.Entity.Customer> dataClass) throws SQLException
-        {
-            super(source, dataClass);
-        }
-    }
-
     public static class Invoice extends Base<Core.Entity.Invoice, Integer>
     {
         public Invoice() throws SQLException
