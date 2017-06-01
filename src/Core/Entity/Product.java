@@ -3,7 +3,7 @@ package Core.Entity;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "products")
+@DatabaseTable(tableName = "products", daoClass = Core.EntityManager.Product.class)
 public class Product extends Abstract<Product, Integer>
 {
     @DatabaseField(generatedId = true)
@@ -35,6 +35,11 @@ public class Product extends Abstract<Product, Integer>
 
     @DatabaseField(canBeNull = false)
     public double price;
+
+    public Product()
+    {
+        super(Core.EntityManager.Product.class);
+    }
 
     public enum Type
     {
