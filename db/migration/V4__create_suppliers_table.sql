@@ -1,5 +1,5 @@
 CREATE TABLE `suppliers` (
-  `id`               INT(10)      NOT NULL AUTO_INCREMENT,
+  `id`               INT(10)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name`             VARCHAR(100) NOT NULL UNIQUE,
   `address_steet_1`  VARCHAR(100) NOT NULL,
   `address_street_2` VARCHAR(100) NOT NULL,
@@ -8,8 +8,7 @@ CREATE TABLE `suppliers` (
   `address_zip`      VARCHAR(10)  NOT NULL,
   `address_country`  CHAR(2)      NOT NULL,
   `phone_number`     VARCHAR(20)  NOT NULL,
-  `email`            VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  `email`            VARCHAR(100) NOT NULL
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

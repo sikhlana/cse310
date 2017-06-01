@@ -1,7 +1,7 @@
 CREATE TABLE `users` (
-  `id`             INT(10)      NOT NULL,
+  `id`             INT(10)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name`           VARCHAR(200) NOT NULL,
-  `email`          VARCHAR(150) NOT NULL,
+  `email`          VARCHAR(150) NOT NULL UNIQUE,
   `password`       CHAR(64)     NOT NULL,
   `is_staff`       TINYINT(1)   NOT NULL DEFAULT '0',
   `remember_token` CHAR(64)              DEFAULT NULL,
