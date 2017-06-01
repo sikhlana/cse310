@@ -1,6 +1,8 @@
 package Core.Entity;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "suppliers")
@@ -10,7 +12,7 @@ public class Supplier extends Abstract<Supplier, Integer>
     public int id;
 
     @DatabaseField(canBeNull = false)
-    public String supplier_name;
+    public String name;
 
     @DatabaseField(canBeNull = false)
     public String phone_number;
@@ -19,21 +21,23 @@ public class Supplier extends Abstract<Supplier, Integer>
     public String email;
 
     @DatabaseField(canBeNull = false)
-    public String supplier_street_1;
+    public String address_street_1;
 
     @DatabaseField
-    public String supplier_street_2;
+    public String address_street_2;
 
     @DatabaseField(canBeNull = false)
-    public String supplier_city;
+    public String address_city;
 
     @DatabaseField(canBeNull = false)
-    public String supplier_state;
+    public String address_state;
 
     @DatabaseField(canBeNull = false)
-    public String supplier_zip;
+    public String address_zip;
 
     @DatabaseField(canBeNull = false)
-    public String supplier_country;
+    public String address_country;
 
+    @ForeignCollectionField
+    public ForeignCollection<Product> products;
 }

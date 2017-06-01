@@ -6,8 +6,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "rentals")
-public class Rental extends Abstract<Rental, Integer> {
-
+public class Rental extends Abstract<Rental, Integer>
+{
     @DatabaseField(generatedId = true)
     public int id;
 
@@ -18,8 +18,8 @@ public class Rental extends Abstract<Rental, Integer> {
     public Product product;
 
     @DatabaseField(canBeNull = false)
-    public Date rental_date;
+    public Date rented_at;
 
-    @DatabaseField(canBeNull = false)
-    public Date return_date;
+    @DatabaseField
+    public Date returned_at;
 }

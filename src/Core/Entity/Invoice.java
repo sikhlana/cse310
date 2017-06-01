@@ -6,12 +6,12 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "invoices")
-public class Invoice extends Abstract<Invoice, Integer> {
-
+public class Invoice extends Abstract<Invoice, Integer>
+{
     @DatabaseField(generatedId = true)
     public int id;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, canBeNull = false)
     public User user;
 
     @DatabaseField(foreign = true, canBeNull = false)
@@ -28,8 +28,6 @@ public class Invoice extends Abstract<Invoice, Integer> {
 
     @DatabaseField(canBeNull = false)
     public Date paid_at;
-
-
 }
 
 

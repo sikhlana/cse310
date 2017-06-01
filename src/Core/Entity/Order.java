@@ -12,18 +12,14 @@ public class Order extends Abstract<Order, Integer>
     public int id;
 
     @DatabaseField(canBeNull = false)
-    public int order_id;
-
-    @DatabaseField(canBeNull = false)
     public String product_list;
 
     @DatabaseField(canBeNull = false)
     public Date created_at;
 
     @DatabaseField(canBeNull = false)
-    public double price;
+    public double total_amount;
 
     @DatabaseField(foreign = true, canBeNull = false)
     public User user;
-
 }
