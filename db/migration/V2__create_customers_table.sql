@@ -1,5 +1,5 @@
 CREATE TABLE `customers` (
-  `user_id`           INT(10)      NOT NULL,
+  `user_id`           INT(10)      NOT NULL PRIMARY KEY,
   `billing_street_1`  VARCHAR(100) NOT NULL,
   `billing_street_2`  VARCHAR(100) NOT NULL,
   `billing_city`      VARCHAR(50)  NOT NULL,
