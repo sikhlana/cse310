@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-@DatabaseTable(tableName = "coupons")
+@DatabaseTable(tableName = "coupons", daoClass = Core.EntityManager.Coupon.class)
 public class Coupon extends Abstract<Coupon, Integer>
 {
     @DatabaseField(generatedId = true)
@@ -28,4 +28,9 @@ public class Coupon extends Abstract<Coupon, Integer>
 
     @DatabaseField(canBeNull = false)
     public int remaining_count;
+
+    public Coupon()
+    {
+        super(Core.EntityManager.Coupon.class);
+    }
 }

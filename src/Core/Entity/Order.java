@@ -22,4 +22,9 @@ public class Order extends Abstract<Order, Integer>
 
     @DatabaseField(foreign = true, canBeNull = false)
     public User user;
+
+    public Order()
+    {
+        super(Core.EntityManager.Order.class);
+    }
 }

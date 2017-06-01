@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-@DatabaseTable(tableName = "invoices")
+@DatabaseTable(tableName = "invoices", daoClass = Core.EntityManager.Invoice.class)
 public class Invoice extends Abstract<Invoice, Integer>
 {
     @DatabaseField(generatedId = true)
@@ -28,6 +28,11 @@ public class Invoice extends Abstract<Invoice, Integer>
 
     @DatabaseField(canBeNull = false)
     public Date paid_at;
+
+    public Invoice()
+    {
+        super(Core.EntityManager.Invoice.class);
+    }
 }
 
 

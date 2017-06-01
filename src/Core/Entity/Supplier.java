@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "suppliers")
+@DatabaseTable(tableName = "suppliers", daoClass = Core.EntityManager.Supplier.class)
 public class Supplier extends Abstract<Supplier, Integer>
 {
     @DatabaseField(generatedId = true)
@@ -40,4 +40,9 @@ public class Supplier extends Abstract<Supplier, Integer>
 
     @ForeignCollectionField
     public ForeignCollection<Product> products;
+
+    public Supplier()
+    {
+        super(Core.EntityManager.Supplier.class);
+    }
 }
