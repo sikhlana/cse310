@@ -122,6 +122,19 @@ public class EntityManager extends DaoManager
         }
     }
 
+    public static class Session extends Base<Core.Entity.Session, Integer>
+    {
+        public Session() throws SQLException
+        {
+            super(Core.Entity.Session.class);
+        }
+
+        public Session(ConnectionSource source) throws SQLException
+        {
+            super(source, Core.Entity.Session.class);
+        }
+    }
+
     public static class Supplier extends Base<Core.Entity.Supplier, Integer>
     {
         public Supplier() throws SQLException
