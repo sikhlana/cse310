@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-@DatabaseTable(tableName = "rentals")
+@DatabaseTable(tableName = "rentals", daoClass = Core.EntityManager.Rental.class)
 public class Rental extends Abstract<Rental, Integer>
 {
     @DatabaseField(generatedId = true)
@@ -22,4 +22,9 @@ public class Rental extends Abstract<Rental, Integer>
 
     @DatabaseField
     public Date returned_at;
+
+    public Rental()
+    {
+        super(Core.EntityManager.Rental.class);
+    }
 }

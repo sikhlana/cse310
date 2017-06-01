@@ -52,4 +52,9 @@ public class Customer extends Abstract<Customer, Integer>
 
     @ForeignCollectionField
     public ForeignCollection<Rental> rentals;
+
+    public Customer()
+    {
+        super(Core.EntityManager.Customer.class);
+    }
 }

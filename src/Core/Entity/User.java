@@ -34,4 +34,9 @@ public class User extends Abstract<User, Integer>
 
     @DatabaseField(foreign = true, foreignColumnName = "user_id", readOnly = true)
     public Customer customer;
+
+    public User()
+    {
+        super(Core.EntityManager.User.class);
+    }
 }

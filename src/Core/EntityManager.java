@@ -2,6 +2,7 @@ package Core;
 
 import Core.Entity.Abstract;
 import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 
 import java.lang.reflect.Field;
@@ -26,7 +27,23 @@ public class EntityManager extends DaoManager
         return map;
     }
 
-    static abstract class Base<T, ID> extends BaseDaoImpl<T, ID>
+    private static HashMap<Class, Base> managers = new HashMap<>();
+
+    public static Base getManagerInstance(Class<? extends Base> manager)
+    {
+        if (!managers.containsKey(manager))
+        {
+            try
+            {
+                managers.put(manager, manager.newInstance());
+            }
+            catch (InstantiationException | IllegalAccessException ignored) { }
+        }
+
+        return managers.get(manager);
+    }
+
+    public static abstract class Base<T, ID> extends BaseDaoImpl<T, ID>
     {
         Base(Class<T> dataClass) throws SQLException
         {
