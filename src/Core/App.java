@@ -28,7 +28,8 @@ public class App
         options.addOption("nw", "no-web", false, "Disables the web application.")
                .addOption("np", "no-pos", false, "Disables the point-of-sale application.")
                .addOption("p", "port", true, "The port number the web app will be accessible from.")
-               .addOption("m", "migrate", false, "Runs the migration module.");
+               .addOption("m", "migrate", false, "Runs the migration module.")
+               .addOption("s", "seed", false, "Seeds the database.");
 
         CommandLine cmd = (new DefaultParser()).parse(options, args);
         opt = new Args(cmd);
@@ -40,6 +41,12 @@ public class App
             flyway.setLocations("filesystem:./db/migration");
             flyway.migrate();
 
+            return;
+        }
+
+        if (cmd.hasOption("s"))
+        {
+            Seeder.run();
             return;
         }
 
