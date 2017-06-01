@@ -5,25 +5,31 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-@DatabaseTable(tableName = "orders", daoClass = Core.EntityManager.Order.class)
-public class Order extends Abstract<Order, Integer>
-{
+@DatabaseTable(tableName = "invoices")
+public class Invoice extends Abstract<Invoice, Integer> {
+
     @DatabaseField(generatedId = true)
     public int id;
 
-    @DatabaseField(canBeNull = false)
-    public int order_id;
+    @DatabaseField(foreign = true)
+    public User user;
+
+    @DatabaseField(foreign = true, canBeNull = false)
+    public Order order;
 
     @DatabaseField(canBeNull = false)
-    public String product_list;
+    public double total_price;
+
+    @DatabaseField(canBeNull = false)
+    public double discount;
 
     @DatabaseField(canBeNull = false)
     public Date created_at;
 
     @DatabaseField(canBeNull = false)
-    public double price;
+    public Date paid_at;
 
-    @DatabaseField(foreign = true, canBeNull = false)
-    public User user;
 
 }
+
+
