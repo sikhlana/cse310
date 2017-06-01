@@ -145,6 +145,9 @@ public class FrontController
                 throw new Exception("Unable to resolve the route path to a controller response.");
             }
 
+            // Saving the session to the database before generating the response...
+            session.save();
+
             if (controllerResponse instanceof Redirect)
             {
                 return returnHttpRedirect((Redirect) controllerResponse);

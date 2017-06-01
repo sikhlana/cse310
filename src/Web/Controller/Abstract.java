@@ -7,7 +7,7 @@ import Web.Router;
 
 abstract public class Abstract
 {
-    private FrontController fc;
+    protected FrontController fc;
     private Router.Match routeMatch;
 
     public void setFrontController(FrontController fc)

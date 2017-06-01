@@ -10,6 +10,8 @@ import java.util.Formatter;
 
 public class Hash
 {
+    private static SecureRandom random = new SecureRandom();
+
     public static String getGlobalSalt()
     {
         return App.opt.salt;
@@ -17,8 +19,7 @@ public class Hash
 
     public static String generateSalt(int length)
     {
-        SecureRandom random = new SecureRandom();
-        return new BigInteger(length + 100, random).toString(32).substring(0, length);
+        return new BigInteger(5 * length, random).toString(32);
     }
 
     public static String generateSalt()

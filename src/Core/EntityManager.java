@@ -1,6 +1,7 @@
 package Core;
 
-import Core.Entity.Abstract;
+import Core.Entity.*;
+import Core.Entity.Session;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -9,6 +10,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 public class EntityManager extends DaoManager
 {
@@ -132,6 +134,12 @@ public class EntityManager extends DaoManager
         public Session(ConnectionSource source) throws SQLException
         {
             super(source, Core.Entity.Session.class);
+        }
+
+        public Core.Entity.Session queryForHash(String hash) throws SQLException
+        {
+            List<Core.Entity.Session> list = this.queryForEq("hash", hash);
+            return list.isEmpty() ? null : list.get(0);
         }
     }
 

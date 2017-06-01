@@ -1,6 +1,6 @@
 package Pos;
 
-public class Session implements Core.Session
+public abstract class Session implements Core.Session
 {
 
 }

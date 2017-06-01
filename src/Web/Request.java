@@ -35,6 +35,11 @@ public class Request
         return session.getUri();
     }
 
+    public String getClientIp()
+    {
+        return session.getRemoteIpAddress();
+    }
+
     public List<String> getParam(String key)
     {
         return session.getParameters().get(key);
