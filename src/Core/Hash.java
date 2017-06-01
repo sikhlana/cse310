@@ -52,6 +52,7 @@ public class Hash
         catch (NoSuchAlgorithmException | InvalidKeyException e)
         {
             e.printStackTrace(System.err);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
