@@ -40,11 +40,22 @@ public class Session implements Core.Session
 
             if (session == null)
             {
+                String remember = fc.getRequest().getCookie("remember_token");
+                User user = null;
+
+                try
+                {
+                    EntityManager.User userManager = new EntityManager.User();
+                    user = userManager.queryForRememberToken(remember);
+                }
+                catch (SQLException ignore) { }
+
                 session = new Core.Entity.Session();
 
                 session.client_ip = fc.getRequest().getClientIp();
                 session.hash = Hash.generateSalt(64);
                 session.token = Hash.generate(session.hash, Hash.getGlobalSalt());
+                session.user = user;
 
                 data = new JSONObject();
                 session.data = data.toString();

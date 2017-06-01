@@ -167,5 +167,11 @@ public class EntityManager extends DaoManager
         {
             super(source, Core.Entity.User.class);
         }
+
+        public Core.Entity.User queryForRememberToken(String token) throws SQLException
+        {
+            List<Core.Entity.User> list = queryForEq("remember_token", token);
+            return list.isEmpty() ? null : list.get(0);
+        }
     }
 }
