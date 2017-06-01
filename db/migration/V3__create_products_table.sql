@@ -1,5 +1,5 @@
 CREATE TABLE `products` (
-  `id`            INT(10)                                 NOT NULL AUTO_INCREMENT,
+  `id`            INT(10)                                 NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title`         VARCHAR(100)                            NOT NULL,
   `minimum_stock` INT(10)                                 NOT NULL DEFAULT '10',
   `stock`         INT(10)                                 NOT NULL,
@@ -8,8 +8,7 @@ CREATE TABLE `products` (
   `rental_tier`   INT(10)                                 NOT NULL DEFAULT '0',
   `meta`          TEXT,
   `supplier_id`   INT(10)                                 NOT NULL,
-  `price`         DECIMAL(10, 2)                          NOT NULL,
-  PRIMARY KEY (`id`)
+  `price`         DECIMAL(10, 2)                          NOT NULL
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
