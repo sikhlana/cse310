@@ -54,7 +54,7 @@ public class Session implements Core.Session
 
                 session.client_ip = fc.getRequest().getClientIp();
                 session.hash = Hash.generateSalt(64);
-                session.token = Hash.generate(session.hash, Hash.getGlobalSalt());
+                session.token = Hash.generate(session.hash);
                 session.user = user;
 
                 data = new JSONObject();
@@ -87,6 +87,11 @@ public class Session implements Core.Session
         csrfToken = session.token;
         clientIp = session.client_ip;
         user = session.user;
+
+        if (!clientIp.equals(fc.getRequest().getClientIp()))
+        {
+            throw new RuntimeException("Remote IP does not match with session IP. Spoofed?");
+        }
     }
 
     public String getCsrfToken()
@@ -130,6 +135,7 @@ public class Session implements Core.Session
     public void kill()
     {
         fc.getResponse().unsetCookie("session");
+        fc.getResponse().unsetCookie("remember_token");
 
         try
         {
