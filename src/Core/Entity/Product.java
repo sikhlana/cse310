@@ -1,7 +1,11 @@
 package Core.Entity;
 
+import Core.App;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.sql.*;
+
 
 @DatabaseTable(tableName = "products", daoClass = Core.EntityManager.Product.class)
 public class Product extends Abstract<Product, Integer>
@@ -43,6 +47,26 @@ public class Product extends Abstract<Product, Integer>
 
     public enum Type
     {
-        game, accessories, console;
+        game, accessories, console
     }
+
+    public Array ProductNameSearch(String s){
+        try {
+
+
+            Connection con = App.getDb().getConnection();
+//            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//            ResultSet rs = stmt.executeQuery("SELECT TITLE FROM PRODUCT WHERE TITLE LIKE '%"+s+"%'");
+
+            PreparedStatement statement = con.prepareStatement("SELECT TITLE FROM PRODUCT WHERE TITLE LIKE '%"+s+"%'");
+            ResultSet rs = statement.executeQuery();
+
+            return rs.getArray("TITLE");
+
+        }catch(SQLException sqle){
+            return null;
+        }
+    }
+
+
 }
