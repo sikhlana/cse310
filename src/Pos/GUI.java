@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package Pos;
 
 import com.bulenkov.darcula.DarculaLaf;
 import javax.swing.UIManager;
@@ -13,7 +13,7 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
  *
  * @author srsc4
  */
-public class SaifTorMayreBaap extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
