@@ -126,6 +126,12 @@ public class Session implements Core.Session
     }
 
     @Override
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    @Override
     public User getUser()
     {
         return user;
@@ -163,6 +169,7 @@ public class Session implements Core.Session
             EntityManager.Session manager = new EntityManager.Session();
             Core.Entity.Session session = manager.queryForId(sessionId);
 
+            session.user = user;
             session.data = data.toString();
             session.update();
             saved = true;
