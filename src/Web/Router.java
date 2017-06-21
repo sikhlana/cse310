@@ -135,6 +135,7 @@ public class Router
         login(Login.class),
         logout(Logout.class),
         products(Products.class),
+        users(Users.class),
         admin(Administration.class),
         ;
 

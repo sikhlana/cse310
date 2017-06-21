@@ -87,6 +87,7 @@ public class Template
     {
         link(new Link()),
         adminlink(new AdminLink()),
+        container(new Container()),
         ;
 
         TemplateMethodModelEx model;
@@ -99,12 +100,14 @@ public class Template
 
     public static class Helpers
     {
+        final public static Map<String, Object> containerParams = new Hashtable<>();
+
         public static Web.Link getLink(String route, List list) throws TemplateModelException
         {
             switch (list.size())
             {
                 case 1:
-                    new Web.Link(route);
+                    return new Web.Link(route);
 
                 case 2:
                     if (list.get(1) instanceof Abstract)

@@ -6,16 +6,17 @@ import freemarker.template.TemplateModelException;
 
 import java.util.List;
 
-public class Link implements TemplateMethodModelEx
+public class Container implements TemplateMethodModelEx
 {
     @Override
     public Object exec(List list) throws TemplateModelException
     {
-        if (list.isEmpty())
+        if (list.size() != 2)
         {
             throw new TemplateModelException("Invalid number of arguments passed.");
         }
 
-        return Template.Helpers.getLink(list.get(0).toString(), list);
+        Template.Helpers.containerParams.put(list.get(0).toString(), list.get(1).toString());
+        return "";
     }
 }

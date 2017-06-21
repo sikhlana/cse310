@@ -93,7 +93,11 @@ public class Link
         {
             try
             {
-                return route.build(prefix, action, this, data, params);
+                String built = route.build(prefix, action, this, data, params);
+                if (built != null)
+                {
+                    return built;
+                }
             }
             catch (Exception ignored) { }
         }
@@ -103,7 +107,7 @@ public class Link
             return "/";
         }
 
-        return String.format("/%s/%s", prefix, action);
+        return String.format("/%s/%s", prefix, action).replaceAll("/{2,}", "/");
     }
 
     public String buildLinkWithIntegerParam(String prefix, String action, Map<String, Object> data, String id, String title)
@@ -156,7 +160,7 @@ public class Link
         BuildInterface route = getRoute(prefix, routes);
         if (route == null)
         {
-            return null;
+            return "";
         }
 
         return route.build(prefix, action, this, data, params);

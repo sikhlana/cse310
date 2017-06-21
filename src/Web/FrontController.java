@@ -3,7 +3,7 @@ package Web;
 import Core.ParameterBag;
 import Web.Controller.Abstract;
 import Web.ControllerResponse.Redirect;
-import Web.ControllerResponse.ResponseException;
+import Web.ControllerResponse.Exception;
 import Web.ViewRenderer.Html;
 import Web.ViewRenderer.Json;
 import Web.ViewRenderer.Raw;
@@ -89,7 +89,7 @@ public class FrontController
 
                 try
                 {
-                    String action = WordUtils.capitalizeFully(matched.action.replaceAll("-", " ").trim());
+                    String action = WordUtils.capitalizeFully(matched.action.replaceAll("[-/]", " ").trim());
                     action = action.replaceAll(" ", "");
 
                     params.put("_controller", matched.controllerName.getName());
@@ -125,11 +125,11 @@ public class FrontController
                         breakLoop = false;
                     }
                 }
-                catch (ResponseException e)
+                catch (Exception e)
                 {
                     controllerResponse = e.response;
                 }
-                catch (Exception e)
+                catch (java.lang.Exception e)
                 {
                     Core.App.debug(e);
                     matched = router.getServerErrorRouteMatch();
@@ -140,7 +140,7 @@ public class FrontController
 
             if (!breakLoop)
             {
-                throw new Exception("Unable to resolve the route path to a controller response.");
+                throw new java.lang.Exception("Unable to resolve the route path to a controller response.");
             }
 
             // Saving the session to the database before generating the response...
@@ -169,7 +169,7 @@ public class FrontController
 
             return response.send(renderer);
         }
-        catch (Exception e)
+        catch (java.lang.Exception e)
         {
             Core.App.debug(e);
         }

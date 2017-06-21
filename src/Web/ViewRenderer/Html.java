@@ -54,7 +54,7 @@ public class Html extends Web.ViewRenderer.Abstract
 
         if (response.container)
         {
-            response.containerParams.putAll(params);
+            response.containerParams.put("templateName", templateName);
             return renderContainer(output, response.containerParams);
         }
         else
@@ -65,6 +65,8 @@ public class Html extends Web.ViewRenderer.Abstract
 
     private String renderContainer(String contents, Map<String, Object> params)
     {
+        params.putAll(Template.Helpers.containerParams);
+        Template.Helpers.containerParams.clear();
         params.put("contents", contents);
         String templateName = (String) params.getOrDefault("containerTemplate", "PAGE_CONTAINER");
         return (new Template(templateName, params)).toString();

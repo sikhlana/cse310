@@ -7,7 +7,8 @@ import Web.Router;
 public class Home implements MatchInterface
 {
     @Override
-    public Router.Match match(String path, Router router, ParameterBag params) {
-        return null;
+    public Router.Match match(String path, Router router, ParameterBag params)
+    {
+        return new Router.Match(Web.Controller.Admin.Home.class, "");
     }
 }

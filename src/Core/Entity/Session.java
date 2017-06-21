@@ -1,9 +1,11 @@
 package Core.Entity;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "sessions", daoClass = Core.EntityManager.Session.class)
 public class Session extends Abstract<Session, Integer>
@@ -23,8 +25,8 @@ public class Session extends Abstract<Session, Integer>
     @DatabaseField(canBeNull = false)
     public String token;
 
-    @DatabaseField
-    public String data;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public HashMap<String, Object> data;
 
     @DatabaseField
     public Date created_at;

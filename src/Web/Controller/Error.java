@@ -4,11 +4,11 @@ public class Error extends Abstract
 {
     public Web.ControllerResponse.Abstract actionErrorNotFound()
     {
-        return new Web.ControllerResponse.Error("Requested page is not found.", 404);
+        return notFoundErrorResponse();
     }
 
     public Web.ControllerResponse.Abstract actionErrorServer()
     {
-        return new Web.ControllerResponse.Error("An internal server error occurred.", 500);
+        return serverErrorResponse();
     }
 }

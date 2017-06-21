@@ -3,22 +3,15 @@ package Web;
 import Core.Entity.User;
 import Core.EntityManager;
 import Core.Hash;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class Session implements Core.Session
 {
     private FrontController fc;
 
-    private int sessionId;
-    private String hash;
-    private String csrfToken;
-    private String clientIp;
-    private JSONObject data;
-    private User user;
+    private Core.Entity.Session session;
 
     private boolean saved = true;
     private boolean killed = false;
@@ -26,9 +19,7 @@ public class Session implements Core.Session
     Session(FrontController fc)
     {
         this.fc = fc;
-
         String cookie = fc.getRequest().getCookie("session");
-        Core.Entity.Session session = null;
 
         try
         {
@@ -56,25 +47,10 @@ public class Session implements Core.Session
                 session.hash = Hash.generateSalt(64);
                 session.token = Hash.generate(session.hash);
                 session.user = user;
-
-                data = new JSONObject();
-                session.data = data.toString();
+                session.data = new HashMap<>();
 
                 fc.getResponse().setCookie("session", session.hash, 1);
                 session.create();
-            }
-            else
-            {
-                try
-                {
-                    JSONParser parser = new JSONParser();
-                    data = (JSONObject) parser.parse(session.data);
-                }
-                catch (ParseException e)
-                {
-                    Core.App.debug(e);
-                    data = new JSONObject();
-                }
             }
         }
         catch (SQLException e)
@@ -82,13 +58,7 @@ public class Session implements Core.Session
             Core.App.debug(e);
         }
 
-        sessionId = session.id;
-        hash = session.hash;
-        csrfToken = session.token;
-        clientIp = session.client_ip;
-        user = session.user;
-
-        if (!clientIp.equals(fc.getRequest().getClientIp()))
+        if (!session.client_ip.equals(fc.getRequest().getClientIp()))
         {
             throw new RuntimeException("Remote IP does not match with session IP. Spoofed?");
         }
@@ -96,45 +66,46 @@ public class Session implements Core.Session
 
     public String getCsrfToken()
     {
-        return csrfToken;
+        return session.token;
     }
 
     @Override
     public String getSessionHash()
     {
-        return hash;
+        return session.hash;
     }
 
     @Override
     public Object get(String key)
     {
-        return data.get(key);
+        return session.data.get(key);
     }
 
     @Override
     public void set(String key, Object value)
     {
         saved = false;
-        data.put(key, value);
+        session.data.put(key, value.toString());
     }
 
     @Override
     public void delete(String key)
     {
         saved = false;
-        data.remove(key);
+        session.data.remove(key);
     }
 
     @Override
     public void setUser(User user)
     {
-        this.user = user;
+        session.user = user;
     }
 
     @Override
     public User getUser()
     {
-        return user;
+        Core.App.dump(this);
+        return session.user;
     }
 
     @Override
@@ -145,8 +116,7 @@ public class Session implements Core.Session
 
         try
         {
-            EntityManager.Session manager = new EntityManager.Session();
-            manager.queryForId(sessionId).delete();
+            session.delete();
         }
         catch (Exception e)
         {
@@ -166,15 +136,10 @@ public class Session implements Core.Session
 
         try
         {
-            EntityManager.Session manager = new EntityManager.Session();
-            Core.Entity.Session session = manager.queryForId(sessionId);
-
-            session.user = user;
-            session.data = data.toString();
             session.update();
             saved = true;
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             Core.App.debug(e);
         }

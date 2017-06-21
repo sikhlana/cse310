@@ -24,7 +24,7 @@ public class Gate
         session.setUser(user);
     }
 
-    static class Exception extends RuntimeException { }
+    public static class Exception extends RuntimeException { }
     static class UserNotFoundException extends Exception { }
     static class PasswordMismatchException extends Exception { }
 }
