@@ -1,7 +1,10 @@
 package Core.Entity;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.HashMap;
 
 
 @DatabaseTable(tableName = "products", daoClass = Core.EntityManager.Product.class)
@@ -28,8 +31,8 @@ public class Product extends Abstract<Product, Integer>
     @DatabaseField(canBeNull = false)
     public int rental_tier;
 
-    @DatabaseField(canBeNull = false)
-    public String meta;
+    @DatabaseField(canBeNull = false, dataType = DataType.SERIALIZABLE)
+    public HashMap<String, Object> meta;
 
     @DatabaseField(canBeNull = false, foreign = true)
     public Supplier supplier;
