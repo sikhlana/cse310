@@ -22,13 +22,6 @@ public class App extends NanoHTTPD
 
     public static byte[] getBytes(String str)
     {
-        try
-        {
-            return str.getBytes(Core.App.ENCODING);
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            return str.getBytes();
-        }
+        return Core.App.getBytes(str);
     }
 }

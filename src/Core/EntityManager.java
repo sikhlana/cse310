@@ -8,7 +8,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.lang.reflect.Field;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;

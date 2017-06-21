@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,6 @@ public class App
         Options options = new Options();
 
         options.addOption("nw", "no-web", false, "Disables the web application.")
-               .addOption("np", "no-pos", false, "Disables the point-of-sale application.")
                .addOption("p", "port", true, "The port number the web app will be accessible from.")
                .addOption("m", "migrate", false, "Runs the migration module.")
                .addOption("s", "seed", false, "Seeds the database.");
@@ -54,12 +54,6 @@ public class App
         {
             NanoHTTPD web = new Web.App();
             web.start(opt.timeout, false);
-        }
-
-        if (opt.pos)
-        {
-            Thread pos = new Pos.App();
-            pos.start();
         }
     }
 
@@ -130,13 +124,24 @@ public class App
         return dateFormat;
     }
 
+    public static byte[] getBytes(String str)
+    {
+        try
+        {
+            return str.getBytes(Core.App.ENCODING);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return str.getBytes();
+        }
+    }
+
     public static class Args
     {
         public int port = 8080;
         public int timeout = 5000;
 
         public boolean web = true;
-        public boolean pos = true;
 
         public String dbhost = "localhost";
         public int dbport = 3306;
@@ -149,7 +154,6 @@ public class App
         private Args(CommandLine cmd)
         {
             web = !cmd.hasOption("nw");
-            pos = !cmd.hasOption("np");
 
             if (cmd.hasOption("p"))
             {
