@@ -72,14 +72,14 @@ public class Session implements Core.Session
                 }
                 catch (ParseException e)
                 {
-                    e.printStackTrace(System.err);
+                    Core.App.debug(e);
                     data = new JSONObject();
                 }
             }
         }
         catch (SQLException e)
         {
-            e.printStackTrace(System.err);
+            Core.App.debug(e);
         }
 
         sessionId = session.id;
@@ -150,7 +150,7 @@ public class Session implements Core.Session
         }
         catch (Exception e)
         {
-            e.printStackTrace(System.err);
+            Core.App.debug(e);
         }
 
         killed = true;
@@ -176,7 +176,7 @@ public class Session implements Core.Session
         }
         catch (SQLException e)
         {
-            e.printStackTrace(System.err);
+            Core.App.debug(e);
         }
     }
 }

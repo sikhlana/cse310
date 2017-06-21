@@ -9,9 +9,13 @@ public class Router
 {
     public Match match(Request request, ParameterBag params)
     {
-        String routePath = getRoutePath(request);
+        return match(getRoutePath(request), Routes.values(), params);
+    }
+
+    public Match match(String routePath, Enum[] routes, ParameterBag params)
+    {
         String pieces[] = routePath.split("/", 2);
-        Routes info; String prefix; MatchInterface route;
+        Route info = null; String prefix; MatchInterface route;
 
         if (pieces[0].isEmpty())
         {
@@ -31,20 +35,24 @@ public class Router
             routePath = pieces[1];
         }
 
-        try
+        for (Enum en : routes)
         {
-            info = Routes.valueOf(prefix);
+            if (prefix.equals(en.name()))
+            {
+                info = (Route) en;
+            }
         }
-        catch (IllegalArgumentException re)
+
+        if (info == null)
         {
             return getNotFoundErrorRouteMatch();
         }
 
         try
         {
-            route = info.route.newInstance();
+            route = info.getRoute().newInstance();
         }
-        catch (IllegalAccessException | InstantiationException ie)
+        catch (IllegalAccessException | InstantiationException | NullPointerException ie)
         {
             return getServerErrorRouteMatch();
         }
@@ -121,12 +129,13 @@ public class Router
         }
     }
 
-    enum Routes
+    enum Routes implements Route
     {
         index(Home.class),
         login(Login.class),
         logout(Logout.class),
         products(Products.class),
+        admin(Administration.class),
         ;
 
         final public Class<? extends MatchInterface> route;
@@ -135,5 +144,16 @@ public class Router
         {
             this.route = route;
         }
+
+        @Override
+        public Class<? extends MatchInterface> getRoute()
+        {
+            return route;
+        }
+    }
+
+    public interface Route
+    {
+        Class<? extends MatchInterface> getRoute();
     }
 }

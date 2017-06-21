@@ -3,6 +3,7 @@ package Web;
 import Core.Entity.Abstract;
 import Web.Route.BuildInterface;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Link
@@ -59,21 +60,50 @@ public class Link
         this(route, entity.map(), params);
     }
 
+    public Link setParams(Map<String, Object> params)
+    {
+        if (this.params == null)
+        {
+            this.params = params;
+        }
+        else
+        {
+            this.params.putAll(params);
+        }
+
+        return this;
+    }
+
+    public Link setParam(String key, Object value)
+    {
+        if (this.params == null)
+        {
+            this.params = new HashMap<>();
+        }
+
+        this.params.put(key, value);
+        return this;
+    }
+
     public String toString()
     {
         BuildInterface route = getRoute(prefix);
 
-        if (route == null)
+        if (route != null)
         {
-            if (prefix.equals("index"))
+            try
             {
-                return "/";
+                return route.build(prefix, action, this, data, params);
             }
-
-            return String.format("/%s/%s", prefix, action);
+            catch (Exception ignored) { }
         }
 
-        return route.build(prefix, action, this, data, params);
+        if (prefix.equals("index"))
+        {
+            return "/";
+        }
+
+        return String.format("/%s/%s", prefix, action);
     }
 
     public String buildLinkWithIntegerParam(String prefix, String action, Map<String, Object> data, String id, String title)
@@ -97,22 +127,63 @@ public class Link
 
     private BuildInterface getRoute(String prefix)
     {
-        Router.Routes info;
+        return getRoute(prefix, Router.Routes.values());
+    }
 
-        try
+    public String build(String action, Enum[] routes, Map<String, Object> data, Map<String, Object> params)
+    {
+        String pieces[] = action.split("/", 2);
+        String prefix;
+
+        if (pieces[0].isEmpty())
         {
-            info = Router.Routes.valueOf(prefix);
+            prefix = "index";
         }
-        catch (IllegalArgumentException e)
+        else
+        {
+            prefix = pieces[0];
+        }
+
+        if (pieces.length < 2)
+        {
+            action = "";
+        }
+        else
+        {
+            action = pieces[1];
+        }
+
+        BuildInterface route = getRoute(prefix, routes);
+        if (route == null)
         {
             return null;
         }
 
-        if (BuildInterface.class.isAssignableFrom(info.route))
+        return route.build(prefix, action, this, data, params);
+    }
+
+    private BuildInterface getRoute(String prefix, Enum[] routes)
+    {
+        Router.Route info = null;
+
+        for (Enum en : routes)
+        {
+            if (prefix.equals(en.name()))
+            {
+                info = (Router.Route) en;
+            }
+        }
+
+        if (info == null)
+        {
+            return null;
+        }
+
+        if (BuildInterface.class.isAssignableFrom(info.getRoute()))
         {
             try
             {
-                return (BuildInterface) info.route.newInstance();
+                return (BuildInterface) info.getRoute().newInstance();
             }
             catch (IllegalAccessException | InstantiationException e)
             {

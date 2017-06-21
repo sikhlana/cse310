@@ -11,7 +11,14 @@ public abstract class Abstract<T, ID> extends BaseDaoEnabled<T, ID>
 {
     public Abstract(Class<? extends EntityManager.Base> manager)
     {
-        setDao(EntityManager.getManagerInstance(manager));
+        try
+        {
+            setDao(EntityManager.getManagerInstance(manager));
+        }
+        catch (SQLException e)
+        {
+            Core.App.debug(e);
+        }
     }
 
     public HashMap<String, Object> map()

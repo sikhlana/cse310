@@ -1,10 +1,11 @@
 package Web.Controller;
 
+import Web.ControllerResponse.Message;
+
 public class Home extends Abstract
 {
     public Web.ControllerResponse.Abstract actionIndex()
     {
-        return null;
-        //return new View("something");
+        return new Message("Something");
     }
 }

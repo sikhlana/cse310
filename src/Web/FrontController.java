@@ -4,7 +4,6 @@ import Core.ParameterBag;
 import Web.Controller.Abstract;
 import Web.ControllerResponse.Redirect;
 import Web.ControllerResponse.ResponseException;
-import Web.ControllerResponse.View;
 import Web.ViewRenderer.Html;
 import Web.ViewRenderer.Json;
 import Web.ViewRenderer.Raw;
@@ -17,7 +16,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Date;
 
 public class FrontController
@@ -133,7 +131,7 @@ public class FrontController
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace(System.err);
+                    Core.App.debug(e);
                     matched = router.getServerErrorRouteMatch();
                     breakLoop = false;
                 }
@@ -173,7 +171,7 @@ public class FrontController
         }
         catch (Exception e)
         {
-            e.printStackTrace(System.err);
+            Core.App.debug(e);
         }
 
         return returnBasicErrorHtml(500);

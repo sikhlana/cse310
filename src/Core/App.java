@@ -67,6 +67,11 @@ public class App
         System.err.printf(format + "\n", args);
     }
 
+    public static void debug(Exception e)
+    {
+        e.printStackTrace(System.err);
+    }
+
     public static void dump(Object obj)
     {
         System.out.println(ReflectionToStringBuilder.toString(obj));

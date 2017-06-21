@@ -29,7 +29,7 @@ public class Seeder
         }
         catch (SQLException ex)
         {
-            ex.printStackTrace(System.err);
+            Core.App.debug(ex);
         }
     }
 }
