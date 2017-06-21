@@ -7,18 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="commons-cli-1.4" level="project" />
-    <orderEntry type="library" name="commons-email-1.4" level="project" />
-    <orderEntry type="library" name="mysql-connector-java-5.1.42-bin" level="project" />
-    <orderEntry type="library" name="flyway-core-4.2.0" level="project" />
     <orderEntry type="library" name="org.nanohttpd:nanohttpd:2.3.1" level="project" />
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" name="ormlite-core-5.0" level="project" />
-    <orderEntry type="library" name="ormlite-jdbc-5.0" level="project" />
-    <orderEntry type="library" name="commons-lang3-3.5" level="project" />
-    <orderEntry type="library" name="less4j-1.17.2" level="project" />
     <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="ormlite-5" level="project" />
-    <orderEntry type="library" name="freemarker" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
