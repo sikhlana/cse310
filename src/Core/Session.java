@@ -12,6 +12,8 @@ public interface Session
 
     void delete(String key);
 
+    void setUser(User user);
+
     User getUser();
 
     void kill();

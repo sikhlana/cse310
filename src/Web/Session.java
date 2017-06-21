@@ -40,11 +40,22 @@ public class Session implements Core.Session
 
             if (session == null)
             {
+                String remember = fc.getRequest().getCookie("remember_token");
+                User user = null;
+
+                try
+                {
+                    EntityManager.User userManager = new EntityManager.User();
+                    user = userManager.queryForRememberToken(remember);
+                }
+                catch (SQLException ignore) { }
+
                 session = new Core.Entity.Session();
 
                 session.client_ip = fc.getRequest().getClientIp();
                 session.hash = Hash.generateSalt(64);
-                session.token = Hash.generate(session.hash, Hash.getGlobalSalt());
+                session.token = Hash.generate(session.hash);
+                session.user = user;
 
                 data = new JSONObject();
                 session.data = data.toString();
@@ -76,6 +87,11 @@ public class Session implements Core.Session
         csrfToken = session.token;
         clientIp = session.client_ip;
         user = session.user;
+
+        if (!clientIp.equals(fc.getRequest().getClientIp()))
+        {
+            throw new RuntimeException("Remote IP does not match with session IP. Spoofed?");
+        }
     }
 
     public String getCsrfToken()
@@ -110,6 +126,12 @@ public class Session implements Core.Session
     }
 
     @Override
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    @Override
     public User getUser()
     {
         return user;
@@ -119,6 +141,7 @@ public class Session implements Core.Session
     public void kill()
     {
         fc.getResponse().unsetCookie("session");
+        fc.getResponse().unsetCookie("remember_token");
 
         try
         {
@@ -146,6 +169,7 @@ public class Session implements Core.Session
             EntityManager.Session manager = new EntityManager.Session();
             Core.Entity.Session session = manager.queryForId(sessionId);
 
+            session.user = user;
             session.data = data.toString();
             session.update();
             saved = true;

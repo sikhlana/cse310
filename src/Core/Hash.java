@@ -31,7 +31,7 @@ public class Hash
     {
         if (!salt.equals(getGlobalSalt()))
         {
-            salt = generate(salt, getGlobalSalt());
+            salt = generate(salt);
         }
 
         try
@@ -59,6 +59,6 @@ public class Hash
 
     public static String generate(String str)
     {
-        return generate(str, generateSalt());
+        return generate(str, getGlobalSalt());
     }
 }

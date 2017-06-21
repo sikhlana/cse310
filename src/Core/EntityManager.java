@@ -8,9 +8,11 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.lang.reflect.Field;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class EntityManager extends DaoManager
 {
@@ -30,9 +32,9 @@ public class EntityManager extends DaoManager
         return map;
     }
 
-    private static HashMap<Class, Base> managers = new HashMap<>();
+    private static Map<Class, Base> managers = new Hashtable<>();
 
-    public static Base getManagerInstance(Class<? extends Base> manager)
+    public static Base getManagerInstance(Class<? extends Base> manager) throws SQLException
     {
         if (!managers.containsKey(manager))
         {
@@ -166,6 +168,18 @@ public class EntityManager extends DaoManager
         public User(ConnectionSource source) throws SQLException
         {
             super(source, Core.Entity.User.class);
+        }
+
+        public Core.Entity.User queryForRememberToken(String token) throws SQLException
+        {
+            List<Core.Entity.User> list = queryForEq("remember_token", token);
+            return list.isEmpty() ? null : list.get(0);
+        }
+
+        public Core.Entity.User queryForEmail(String email) throws SQLException
+        {
+            List<Core.Entity.User> list = queryForEq("email", email);
+            return list.isEmpty() ? null : list.get(0);
         }
     }
 }

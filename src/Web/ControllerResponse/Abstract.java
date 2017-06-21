@@ -8,6 +8,9 @@ public abstract class Abstract
     public int code = 200;
 
     public Map<String, Object> json = new HashMap<>();
+    public Map<String, Object> containerParams = new HashMap<>();
+
+    public boolean container = true;
 
     public Abstract(int code)
     {

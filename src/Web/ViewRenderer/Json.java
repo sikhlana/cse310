@@ -3,7 +3,9 @@ package Web.ViewRenderer;
 import Web.ControllerResponse.Abstract;
 import Web.ControllerResponse.Error;
 import Web.ControllerResponse.Message;
+import Web.ControllerResponse.View;
 import Web.FrontController;
+import Web.Template;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
@@ -41,6 +43,11 @@ public class Json extends Web.ViewRenderer.Abstract
         else if (response instanceof Error)
         {
             map.put("error", ((Error) response).error);
+        }
+        else if (response instanceof View)
+        {
+            Template html = new Template(((View) response).template, ((View) response).params);
+            map.put("html", html.render());
         }
 
         return (new JSONObject(map)).toString();
