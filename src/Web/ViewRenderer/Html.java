@@ -50,11 +50,14 @@ public class Html extends Web.ViewRenderer.Abstract
             throw new RuntimeException("The variable templateName cannot be null.");
         }
 
+        params.put("fc", fc);
         String output = (new Template(templateName, params)).toString();
 
         if (response.container)
         {
             response.containerParams.put("templateName", templateName);
+            response.containerParams.put("fc", fc);
+
             return renderContainer(output, response.containerParams);
         }
         else

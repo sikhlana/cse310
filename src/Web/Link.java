@@ -96,6 +96,11 @@ public class Link
                 String built = route.build(prefix, action, this, data, params);
                 if (built != null)
                 {
+                    if (!built.startsWith("/"))
+                    {
+                        built = "/" + built;
+                    }
+
                     return built;
                 }
             }

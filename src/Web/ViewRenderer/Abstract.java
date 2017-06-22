@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 public abstract class Abstract
 {
-    private FrontController fc;
+    protected FrontController fc;
     protected Web.ControllerResponse.Abstract response;
 
     Abstract(Web.ControllerResponse.Abstract response, FrontController fc)

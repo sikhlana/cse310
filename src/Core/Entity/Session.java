@@ -13,7 +13,7 @@ public class Session extends Abstract<Session, Integer>
     @DatabaseField(generatedId = true)
     public int id;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     public User user;
 
     @DatabaseField(canBeNull = false)

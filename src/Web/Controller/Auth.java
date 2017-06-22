@@ -14,13 +14,15 @@ public class Auth extends Abstract
     {
         if (fc.getSession().getUser() != null)
         {
-            return new Redirect(new Link("index"));
+            return new Redirect(new Link("index"), Redirect.TEMP_REDIRECT);
         }
 
         HashMap<String, Object> params = new HashMap<>();
+
         params.put("redirect", fc.getSession().get("redirect"));
         params.put("error", fc.getSession().get("error"));
 
+        fc.getSession().delete("error");
         return new View("login", params);
     }
 
@@ -30,7 +32,7 @@ public class Auth extends Abstract
         {
             Gate.auth(
                     fc.getSession(),
-                    (String) fc.getRequest().getParam("username").get(0),
+                    (String) fc.getRequest().getParam("email").get(0),
                     (String) fc.getRequest().getParam("password").get(0)
             );
         }
@@ -48,6 +50,6 @@ public class Auth extends Abstract
     public Redirect actionLogout()
     {
         fc.getSession().kill();
-        return new Redirect(new Link("index"));
+        return new Redirect(new Link("index"), Redirect.SEE_OTHER);
     }
 }

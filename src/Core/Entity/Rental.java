@@ -11,10 +11,10 @@ public class Rental extends Abstract<Rental, Integer>
     @DatabaseField(generatedId = true)
     public int id;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public User user;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public Product product;
 
     @DatabaseField(canBeNull = false)

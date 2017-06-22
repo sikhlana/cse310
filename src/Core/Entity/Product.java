@@ -34,7 +34,7 @@ public class Product extends Abstract<Product, Integer>
     @DatabaseField(canBeNull = false, dataType = DataType.SERIALIZABLE)
     public HashMap<String, Object> meta;
 
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     public Supplier supplier;
 
     @DatabaseField(canBeNull = false)

@@ -2,11 +2,15 @@ package Web;
 
 import fi.iki.elonen.NanoHTTPD;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Request
 {
     private NanoHTTPD.IHTTPSession session;
+    private Map<String, String> files = new HashMap<>();
 
     Request(NanoHTTPD.IHTTPSession session) throws InvalidRequestException
     {
@@ -22,6 +26,18 @@ public class Request
 
             default:
                 throw new InvalidRequestException(405);
+        }
+
+        if (session.getMethod().equals(NanoHTTPD.Method.POST))
+        {
+            try
+            {
+                session.parseBody(files);
+            }
+            catch (IOException | NanoHTTPD.ResponseException e)
+            {
+                throw new InvalidRequestException(405);
+            }
         }
     }
 
@@ -43,6 +59,11 @@ public class Request
     public List<String> getParam(String key)
     {
         return session.getParameters().get(key);
+    }
+
+    public String getFile(String key)
+    {
+        return files.get(key);
     }
 
     public boolean isAjax()
