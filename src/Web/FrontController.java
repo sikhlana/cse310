@@ -99,6 +99,11 @@ public class FrontController
                     String action = WordUtils.capitalizeFully(matched.action.replaceAll("[-/]", " ").trim());
                     action = action.replaceAll(" ", "");
 
+                    if (action.isEmpty())
+                    {
+                        action = "Index";
+                    }
+
                     params.put("_controller", matched.controllerName.getName());
                     params.put("_action", action);
 
@@ -124,7 +129,7 @@ public class FrontController
                         }
                         catch (InvocationTargetException e)
                         {
-                            throw new java.lang.Exception(e.getTargetException());
+                            throw (java.lang.Exception) e.getCause();
                         }
 
                         if (controllerResponse == null)
@@ -160,19 +165,21 @@ public class FrontController
             }
             while (!breakLoop && count++ < 100);
 
-            if (!breakLoop)
+            if (!breakLoop || controllerResponse == null)
             {
                 throw new java.lang.Exception("Unable to resolve the route path to a controller response.");
             }
 
             // Saving the session to the database before generating the response...
             session.save();
+            Core.App.log("Response: %s", controllerResponse.getClass().getName());
 
             if (controllerResponse instanceof Redirect)
             {
                 return returnHttpRedirect((Redirect) controllerResponse);
             }
 
+            controllerResponse.containerParams.put("section", matched.section == null ? "" : matched.section);
             Web.ViewRenderer.Abstract renderer;
 
             switch (matched.responseType)

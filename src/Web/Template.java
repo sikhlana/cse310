@@ -68,7 +68,7 @@ public class Template
 
             freemarker.template.Template template = cfg.getTemplate(templateName + ".ftl");
             params.putAll(defaultParams);
-            template.process(params, writer);
+            template.process(prepareParams(params), writer);
 
             return writer.toString();
         }
@@ -76,6 +76,30 @@ public class Template
         {
             throw new RuntimeException(e);
         }
+    }
+
+    private Map<String, Object> prepareParams(Map<String, Object> params)
+    {
+        Map<String, Object> out = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry : params.entrySet())
+        {
+            Object value = entry.getValue();
+
+            if (value instanceof Abstract)
+            {
+                value = ((Abstract) value).map();
+            }
+
+            if (value instanceof Map)
+            {
+                value = prepareParams((Map) value);
+            }
+
+            out.put(entry.getKey(), value);
+        }
+
+        return out;
     }
 
     public String toString()

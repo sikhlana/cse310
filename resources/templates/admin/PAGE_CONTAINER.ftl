@@ -5,7 +5,68 @@
 </head>
 <body id="<#if body??>${body}<#else>default</#if>">
     <header id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <nav id="main-navigation">
+                        <ul>
+                            <li>
+                                <a class="navigation-link <#if section == 'dashboard'>selected</#if>" href="${link("admin")}">
+                                    <span class="icon"><i class="fa fa-dashboard"></i></span>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
 
+                            <li>
+                                <a class="navigation-link <#if section == 'pos'>selected</#if>" href="${link("admin/pos")}">
+                                    <span class="icon"><i class="fa fa-desktop"></i></span>
+                                    <p>Point of Sale</p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="navigation-link <#if section == 'products'>selected</#if>" href="${link("admin/products")}">
+                                    <span class="icon"><i class="fa fa-shopping-bag"></i></span>
+                                    <p>Products</p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="navigation-link <#if section == 'rentals'>selected</#if>" href="${link("admin/rentals")}">
+                                    <span class="icon"><i class="fa fa-paper-plane-o"></i></span>
+                                    <p>Rentals</p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="navigation-link <#if section == 'suppliers'>selected</#if>" href="${link("admin/suppliers")}">
+                                    <span class="icon"><i class="fa fa-users"></i></span>
+                                    <p>Suppliers</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <nav id="visitor-navigation">
+                        <ul>
+                            <li>
+                                <a class="navigation-link <#if section == 'account'>selected</#if>" href="${link("account")}">
+                                    <span class="icon"><i class="fa fa-user-o"></i></span>
+                                    <p>Account</p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="navigation-link" href="${link("logout")}">
+                                    <span class="icon"><i class="fa fa-sign-out"></i></span>
+                                    <p>Logout</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </header>
 
     <section id="main-section">
@@ -13,7 +74,13 @@
     </section>
 
     <footer id="footer">
-
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <p id="powered-by">Made with &hearts; by <i>Onegai Sensei</i>.</p>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class Auth extends Abstract
 {
-    public Web.ControllerResponse.Abstract actionLogin()
+    public Object actionLogin()
     {
         if (fc.getSession().getUser() != null)
         {
@@ -26,7 +26,7 @@ public class Auth extends Abstract
         return new View("login", params);
     }
 
-    public Web.ControllerResponse.Abstract actionLoginLogin() throws SQLException
+    public Object actionLoginLogin() throws SQLException
     {
         try
         {
@@ -43,6 +43,11 @@ public class Auth extends Abstract
         }
 
         String redirect = (String) fc.getSession().get("redirect");
+        if (redirect == null)
+        {
+            redirect = (new Link("index")).toString();
+        }
+
         fc.getSession().delete("redirect");
         return new Redirect(redirect);
     }

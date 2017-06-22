@@ -27,4 +27,19 @@ public class Rental extends Abstract<Rental, Integer>
     {
         super(Core.EntityManager.Rental.class);
     }
+
+    public enum Tier
+    {
+        zero, one, two, three;
+
+        public int value()
+        {
+            return ordinal();
+        }
+
+        public String label()
+        {
+            return String.format("Tier %d", value());
+        }
+    }
 }

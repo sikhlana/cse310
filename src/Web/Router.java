@@ -86,10 +86,9 @@ public class Router
         }
 
         pieces = pieces[0].split("\\.");
-        int paramId = Integer.parseInt(pieces[pieces.length - 1]);
-
-        if (pieces.length > 1 || StringUtils.isNumeric(pieces[pieces.length - 1]))
+        if (StringUtils.isNumeric(pieces[pieces.length - 1]))
         {
+            int paramId = Integer.parseInt(pieces[pieces.length - 1]);
             params.put(paramName, paramId);
 
             if (action.isEmpty())

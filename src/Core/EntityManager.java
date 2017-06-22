@@ -22,7 +22,7 @@ public class EntityManager extends DaoManager
         {
             try
             {
-                map.put(field.getName(), field.get(entity));
+                map.put(field.getName(), field.get(entity) == null ? "" : field.get(entity));
             }
             catch (IllegalAccessException ignored) { }
         }

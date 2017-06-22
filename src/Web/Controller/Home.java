@@ -4,7 +4,7 @@ import Web.ControllerResponse.Message;
 
 public class Home extends Abstract
 {
-    public Web.ControllerResponse.Abstract actionIndex()
+    public Object actionIndex()
     {
         return new Message("Something");
     }

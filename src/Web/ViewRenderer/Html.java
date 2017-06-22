@@ -33,6 +33,7 @@ public class Html extends Web.ViewRenderer.Abstract
         {
             templateName = "error";
             params.put("error", ((Error) response).error);
+            params.put("code", response.code);
         }
         else if (response instanceof Message)
         {

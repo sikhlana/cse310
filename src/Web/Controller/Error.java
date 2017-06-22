@@ -2,12 +2,12 @@ package Web.Controller;
 
 public class Error extends Abstract
 {
-    public Web.ControllerResponse.Abstract actionErrorNotFound()
+    public Object actionErrorNotFound()
     {
         return notFoundErrorResponse();
     }
 
-    public Web.ControllerResponse.Abstract actionErrorServer()
+    public Object actionErrorServer()
     {
         return serverErrorResponse();
     }

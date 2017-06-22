@@ -16,11 +16,14 @@ public class Product extends Abstract<Product, Integer>
     @DatabaseField(canBeNull = false)
     public String title;
 
-    @DatabaseField(canBeNull = false)
-    public int minimum_stock;
+    @DatabaseField
+    public String description;
 
     @DatabaseField(canBeNull = false)
-    public int stock;
+    public Integer minimum_stock;
+
+    @DatabaseField(canBeNull = false)
+    public Integer stock;
 
     @DatabaseField(canBeNull = false)
     public String sku;
@@ -38,7 +41,7 @@ public class Product extends Abstract<Product, Integer>
     public Supplier supplier;
 
     @DatabaseField(canBeNull = false)
-    public double price;
+    public Double price;
 
     public Product()
     {
@@ -47,6 +50,18 @@ public class Product extends Abstract<Product, Integer>
 
     public enum Type
     {
-        game, accessories, console
+        game("Game"), accessories("Accessories"), console("Console");
+
+        private String title;
+
+        Type(String title)
+        {
+            this.title = title;
+        }
+
+        public String title()
+        {
+            return title;
+        }
     }
 }
