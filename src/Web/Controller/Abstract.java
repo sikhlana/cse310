@@ -20,13 +20,23 @@ abstract public class Abstract
         routeMatch = match;
     }
 
-    public void preDispatch(String action)
+    final public void preDispatch(String action)
     {
         checkCsrfToken(action);
         preDispatchController(action);
     }
 
     protected void preDispatchController(String action)
+    {
+        // this will be overridden by child classes...
+    }
+
+    final public void postDispatch(Web.ControllerResponse.Abstract controllerResponse)
+    {
+        postDispatchController(controllerResponse);
+    }
+
+    protected void postDispatchController(Web.ControllerResponse.Abstract controllerResponse)
     {
         // this will be overridden by child classes...
     }

@@ -135,6 +135,14 @@ public class FrontController
                     matched = router.getServerErrorRouteMatch();
                     breakLoop = false;
                 }
+                finally
+                {
+                    // Doing some finalization for the controller...
+                    if (controllerResponse != null)
+                    {
+                        controller.postDispatch(controllerResponse);
+                    }
+                }
             }
             while (!breakLoop && count++ < 100);
 

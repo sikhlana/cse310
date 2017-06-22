@@ -9,8 +9,6 @@ public class Abstract extends Web.Controller.Abstract
     @Override
     protected void preDispatchController(String action)
     {
-        super.preDispatchController(action);
-
         if (fc.getSession().getUser() == null)
         {
             fc.getSession().set("redirect", new Link("admin"));
@@ -21,5 +19,11 @@ public class Abstract extends Web.Controller.Abstract
         {
             throw new Exception(noPermissionErrorResponse());
         }
+    }
+
+    @Override
+    protected void postDispatchController(Web.ControllerResponse.Abstract controllerResponse)
+    {
+        controllerResponse.containerParams.put("containerTemplate", "admin/PAGE_CONTAINER");
     }
 }

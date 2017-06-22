@@ -66,7 +66,7 @@ public class Template
         {
             StringWriter writer = new StringWriter();
 
-            freemarker.template.Template template = cfg.getTemplate(templateName + ".html");
+            freemarker.template.Template template = cfg.getTemplate(templateName + ".ftl");
             params.putAll(defaultParams);
             template.process(params, writer);
 
