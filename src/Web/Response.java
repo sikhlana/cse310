@@ -7,7 +7,6 @@ import fi.iki.elonen.NanoHTTPD;
 
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class Response

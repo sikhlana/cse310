@@ -1,10 +1,10 @@
 package Web;
 
 import Core.Entity.Abstract;
-import Web.TemplateFunctions.*;
+import Web.TemplateFunctions.AdminLink;
+import Web.TemplateFunctions.Container;
 import Web.TemplateFunctions.Link;
 import freemarker.template.*;
-import org.flywaydb.core.internal.dbsupport.Function;
 
 import java.io.File;
 import java.io.IOException;

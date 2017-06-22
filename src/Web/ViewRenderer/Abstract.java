@@ -1,6 +1,5 @@
 package Web.ViewRenderer;
 
-import Core.App;
 import Web.FrontController;
 import fi.iki.elonen.NanoHTTPD;
 

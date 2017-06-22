@@ -129,7 +129,7 @@ public class Session implements Core.Session
     @Override
     public void save()
     {
-        if (saved && !killed)
+        if (saved || killed)
         {
             return;
         }

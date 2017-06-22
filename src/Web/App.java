@@ -2,8 +2,6 @@ package Web;
 
 import fi.iki.elonen.NanoHTTPD;
 
-import java.io.UnsupportedEncodingException;
-
 public class App extends NanoHTTPD
 {
     public App()

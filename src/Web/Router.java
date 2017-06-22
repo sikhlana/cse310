@@ -1,6 +1,6 @@
 package Web;
 
-import Core.*;
+import Core.ParameterBag;
 import Web.Controller.Abstract;
 import Web.Route.*;
 import org.apache.commons.lang3.StringUtils;

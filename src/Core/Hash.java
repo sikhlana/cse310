@@ -36,11 +36,11 @@ public class Hash
 
         try
         {
-            SecretKeySpec key = new SecretKeySpec(salt.getBytes(), "HmacSHA256");
+            SecretKeySpec key = new SecretKeySpec(App.getBytes(salt), "HmacSHA256");
             Mac mac = Mac.getInstance("HmacSHA256");
 
             mac.init(key);
-            byte bytes[] = mac.doFinal(str.getBytes());
+            byte bytes[] = mac.doFinal(App.getBytes(str));
             Formatter formatter = new Formatter();
 
             for (byte b : bytes)

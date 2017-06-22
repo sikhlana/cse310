@@ -1,14 +1,12 @@
 package Core;
 
-import Core.Entity.*;
-import Core.Entity.Session;
+import Core.Entity.Abstract;
 import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.lang.reflect.Field;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;

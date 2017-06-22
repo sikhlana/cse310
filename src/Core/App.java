@@ -1,7 +1,6 @@
 package Core;
 
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.cli.CommandLine;
@@ -96,17 +95,19 @@ public class App
         return db;
     }
 
-    private static ConnectionSource source;
+    private static JdbcPooledConnectionSource source;
 
-    public static ConnectionSource getDbConnectionSource()
+    public static JdbcPooledConnectionSource getDbConnectionSource()
     {
-        if (source == null || !source.isOpen(null))
+        if (source == null)
         {
             try
             {
-                source = new JdbcConnectionSource(String.format(
+                source = new JdbcPooledConnectionSource(String.format(
                         "jdbc:mysql://%s:%d/%s", opt.dbhost, opt.dbport, opt.dbname
                 ), opt.dbuser, opt.dbpasswd);
+
+                source.setTestBeforeGet(true);
             }
             catch (SQLException e)
             {
