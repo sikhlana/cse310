@@ -7,6 +7,7 @@ import fi.iki.elonen.NanoHTTPD;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Response
@@ -34,7 +35,7 @@ public class Response
 
     public void setCookie(String name, String value, int expires)
     {
-        session.getCookies().set(name, value, expires);
+        session.getCookies().set(new Cookie(name, value, expires));
     }
 
     public void unsetCookie(String name)
@@ -67,6 +68,19 @@ public class Response
         public HttpResponse(NanoHTTPD.Response.IStatus status, String mimeType, InputStream data, long totalBytes)
         {
             super(status, mimeType, data, totalBytes);
+        }
+    }
+
+    private class Cookie extends NanoHTTPD.Cookie
+    {
+        Cookie(String key, String value, int expires)
+        {
+            super(key, value, expires);
+        }
+
+        public String getHTTPHeader()
+        {
+            return String.format("%s; path=/", super.getHTTPHeader());
         }
     }
 }
