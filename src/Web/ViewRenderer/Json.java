@@ -47,7 +47,7 @@ public class Json extends Web.ViewRenderer.Abstract
         else if (response instanceof View)
         {
             Template html = new Template(((View) response).template, ((View) response).params);
-            map.put("html", html.render());
+            map.put("html", html.render().trim());
         }
 
         return (new JSONObject(map)).toString();

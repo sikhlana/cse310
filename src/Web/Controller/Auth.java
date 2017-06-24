@@ -10,27 +10,29 @@ import java.util.HashMap;
 
 public class Auth extends Abstract
 {
-    public Web.ControllerResponse.Abstract actionLogin()
+    public Object actionLogin()
     {
         if (fc.getSession().getUser() != null)
         {
-            return new Redirect(new Link("index"));
+            return new Redirect(new Link("index"), Redirect.TEMP_REDIRECT);
         }
 
         HashMap<String, Object> params = new HashMap<>();
+
         params.put("redirect", fc.getSession().get("redirect"));
         params.put("error", fc.getSession().get("error"));
 
+        fc.getSession().delete("error");
         return new View("login", params);
     }
 
-    public Web.ControllerResponse.Abstract actionLoginLogin() throws SQLException
+    public Object actionLoginLogin() throws SQLException
     {
         try
         {
             Gate.auth(
                     fc.getSession(),
-                    (String) fc.getRequest().getParam("username").get(0),
+                    (String) fc.getRequest().getParam("email").get(0),
                     (String) fc.getRequest().getParam("password").get(0)
             );
         }
@@ -41,6 +43,11 @@ public class Auth extends Abstract
         }
 
         String redirect = (String) fc.getSession().get("redirect");
+        if (redirect == null)
+        {
+            redirect = (new Link("index")).toString();
+        }
+
         fc.getSession().delete("redirect");
         return new Redirect(redirect);
     }
@@ -48,6 +55,6 @@ public class Auth extends Abstract
     public Redirect actionLogout()
     {
         fc.getSession().kill();
-        return new Redirect(new Link("index"));
+        return new Redirect(new Link("index"), Redirect.SEE_OTHER);
     }
 }

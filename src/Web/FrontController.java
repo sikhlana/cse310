@@ -14,6 +14,7 @@ import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.Date;
@@ -54,13 +55,24 @@ public class FrontController
             return returnCssOutput();
         }
 
+        if (request.getPath().endsWith(".css.map"))
+        {
+            return returnCssMapOutput();
+        }
+
+        if (request.getPath().endsWith(".less"))
+        {
+            return returnStaticFile("../less" + request.getPath());
+        }
+
         if (request.getPath().startsWith("/static/"))
         {
             return returnStaticFile(request.getPath().substring(8));
         }
-        else if (request.getPath().equals("/favicon.ico"))
+
+        if (request.getPath().equals("/favicon.ico"))
         {
-            return returnStaticFile(request.getPath());
+            return returnStaticFile(request.getPath().substring(1));
         }
 
         try
@@ -92,6 +104,11 @@ public class FrontController
                     String action = WordUtils.capitalizeFully(matched.action.replaceAll("[-/]", " ").trim());
                     action = action.replaceAll(" ", "");
 
+                    if (action.isEmpty())
+                    {
+                        action = "Index";
+                    }
+
                     params.put("_controller", matched.controllerName.getName());
                     params.put("_action", action);
 
@@ -104,13 +121,20 @@ public class FrontController
 
                         try
                         {
-                            actionMethod = matched.controllerName.getDeclaredMethod(action, ParameterBag.class);
-                            controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller, params);
+                            try
+                            {
+                                actionMethod = matched.controllerName.getDeclaredMethod(action, ParameterBag.class);
+                                controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller, params);
+                            }
+                            catch (NoSuchMethodException ignore)
+                            {
+                                actionMethod = matched.controllerName.getDeclaredMethod(action);
+                                controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller);
+                            }
                         }
-                        catch (NoSuchMethodException ignore)
+                        catch (InvocationTargetException e)
                         {
-                            actionMethod = matched.controllerName.getDeclaredMethod(action);
-                            controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller);
+                            throw (java.lang.Exception) e.getCause();
                         }
 
                         if (controllerResponse == null)
@@ -135,22 +159,32 @@ public class FrontController
                     matched = router.getServerErrorRouteMatch();
                     breakLoop = false;
                 }
+                finally
+                {
+                    // Doing some finalization for the controller...
+                    if (controllerResponse != null)
+                    {
+                        controller.postDispatch(controllerResponse);
+                    }
+                }
             }
             while (!breakLoop && count++ < 100);
 
-            if (!breakLoop)
+            if (!breakLoop || controllerResponse == null)
             {
                 throw new java.lang.Exception("Unable to resolve the route path to a controller response.");
             }
 
             // Saving the session to the database before generating the response...
             session.save();
+            Core.App.log("Response: %s", controllerResponse.getClass().getName());
 
             if (controllerResponse instanceof Redirect)
             {
                 return returnHttpRedirect((Redirect) controllerResponse);
             }
 
+            controllerResponse.containerParams.put("section", matched.section == null ? "" : matched.section);
             Web.ViewRenderer.Abstract renderer;
 
             switch (matched.responseType)
@@ -190,6 +224,28 @@ public class FrontController
 
             return new Response.HttpResponse(
                     NanoHTTPD.Response.Status.OK, "text/css",
+                    new ByteArrayInputStream(App.getBytes(output)), (long) output.length()
+            );
+        }
+        catch (Less4jException e)
+        {
+            return returnBasicErrorHtml(500);
+        }
+    }
+
+    private NanoHTTPD.Response returnCssMapOutput()
+    {
+        try
+        {
+            File file = new File("./resources/less/app.less");
+
+            LessCompiler compiler = new DefaultLessCompiler();
+            LessCompiler.CompilationResult result = compiler.compile(file);
+
+            String output = result.getSourceMap();
+
+            return new Response.HttpResponse(
+                    NanoHTTPD.Response.Status.OK, "application/json",
                     new ByteArrayInputStream(App.getBytes(output)), (long) output.length()
             );
         }

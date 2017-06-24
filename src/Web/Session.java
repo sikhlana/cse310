@@ -25,7 +25,7 @@ public class Session implements Core.Session
         {
             if (cookie != null)
             {
-                EntityManager.Session manager = new EntityManager.Session();
+                EntityManager.Session manager = (EntityManager.Session) EntityManager.getManagerInstance(EntityManager.Session.class);
                 session = manager.queryForHash(cookie);
             }
 
@@ -104,7 +104,6 @@ public class Session implements Core.Session
     @Override
     public User getUser()
     {
-        Core.App.dump(this);
         return session.user;
     }
 

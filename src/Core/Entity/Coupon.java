@@ -14,7 +14,7 @@ public class Coupon extends Abstract<Coupon, Integer>
     @DatabaseField(canBeNull = false, unique = true)
     public String coupon_code;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public User user;
 
     @DatabaseField(canBeNull = false)

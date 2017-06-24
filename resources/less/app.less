@@ -1,3 +1,103 @@
 @charset "UTF-8";
 
 @import "_colors";
+
+:root, html, body
+{
+  font-size: 13px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+}
+
+html
+{
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+}
+
+body
+{
+  background: @body-bg;
+}
+
+a
+{
+  cursor: pointer;
+}
+
+small
+{
+  font-weight: 300;
+}
+
+nav#main-navigation,
+nav#visitor-navigation
+{
+  > ul
+  {
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none outside none;
+    vertical-align: middle;
+
+    > li
+    {
+      display: inline-block;
+      list-style: none outside none;
+
+      > a
+      {
+        display: block;
+        text-align: center;
+        text-decoration: none !important;
+      }
+    }
+  }
+}
+
+#powered-by
+{
+  display: block;
+  clear: both;
+
+  font-size: 11px;
+  margin: 5px 0;
+  text-align: right;
+  font-weight: 300;
+  color: #615756;
+
+  a
+  {
+    font-weight: 600;
+    text-decoration: none !important;
+    color: #615756 !important;
+  }
+}
+
+#header,
+#footer,
+#main-section
+{
+  display: block;
+  width: 100%;
+}
+
+#footer
+{
+  position: absolute;
+  bottom: 0;
+}
+
+@import "form";
+@import "login";
+
+@import "public";
+@import "admin";
+@import "error";

@@ -4,12 +4,16 @@ import Web.Link;
 
 public class Redirect extends Abstract
 {
+    final public static int MOVED_PERMENANTLY  = 301;
+    final public static int SEE_OTHER          = 303;
+    final public static int TEMP_REDIRECT      = 307;
+
     public Link target = null;
     public String basic = null;
 
     public Redirect(Link target)
     {
-        this(target, 307);
+        this(target, SEE_OTHER);
     }
 
     public Redirect(Link target, int code)
@@ -20,7 +24,7 @@ public class Redirect extends Abstract
 
     public Redirect(String target)
     {
-        this(target, 307);
+        this(target, SEE_OTHER);
     }
 
     public Redirect(String target, int code)

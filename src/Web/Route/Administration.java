@@ -23,6 +23,8 @@ public class Administration implements MatchInterface, BuildInterface
     enum Routes implements Router.Route
     {
         index(Web.Route.Admin.Home.class),
+        pos(Web.Route.Admin.Pos.class),
+        products(Web.Route.Admin.Products.class),
         ;
 
         final public Class<? extends MatchInterface> route;

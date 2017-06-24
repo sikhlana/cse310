@@ -11,10 +11,10 @@ public class Invoice extends Abstract<Invoice, Integer>
     @DatabaseField(generatedId = true)
     public int id;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public User user;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public Order order;
 
     @DatabaseField(canBeNull = false)

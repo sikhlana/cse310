@@ -96,7 +96,12 @@ public class Link
                 String built = route.build(prefix, action, this, data, params);
                 if (built != null)
                 {
-                    return built;
+                    if (!built.startsWith("/"))
+                    {
+                        built = "/" + built;
+                    }
+
+                    return built.replaceAll("/{2,}", "/");
                 }
             }
             catch (Exception ignored) { }
@@ -160,7 +165,14 @@ public class Link
         BuildInterface route = getRoute(prefix, routes);
         if (route == null)
         {
-            return "";
+            if (prefix.equals("index"))
+            {
+                return "";
+            }
+            else
+            {
+                return prefix + "/" + action;
+            }
         }
 
         return route.build(prefix, action, this, data, params);

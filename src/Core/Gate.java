@@ -8,7 +8,7 @@ public class Gate
 {
     public static void auth(Session session, String email, String password) throws SQLException
     {
-        EntityManager.User manager = new EntityManager.User();
+        EntityManager.User manager = (EntityManager.User) EntityManager.getManagerInstance(EntityManager.User.class);
         User user = manager.queryForEmail(email);
 
         if (user == null)

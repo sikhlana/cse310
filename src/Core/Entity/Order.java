@@ -22,7 +22,7 @@ public class Order extends Abstract<Order, Integer>
     @DatabaseField(canBeNull = false)
     public double total_amount;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public User user;
 
     public Order()

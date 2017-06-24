@@ -1,11 +1,11 @@
 package Web.Controller.Admin;
 
-import Web.ControllerResponse.Message;
+import Web.ControllerResponse.View;
 
 public class Home extends Abstract
 {
-    public Message actionIndex()
+    public Object actionIndex()
     {
-        return new Message("something");
+        return new View("admin/dashboard");
     }
 }

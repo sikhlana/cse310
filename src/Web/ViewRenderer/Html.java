@@ -33,6 +33,7 @@ public class Html extends Web.ViewRenderer.Abstract
         {
             templateName = "error";
             params.put("error", ((Error) response).error);
+            params.put("code", response.code);
         }
         else if (response instanceof Message)
         {
@@ -50,11 +51,14 @@ public class Html extends Web.ViewRenderer.Abstract
             throw new RuntimeException("The variable templateName cannot be null.");
         }
 
+        params.put("fc", fc);
         String output = (new Template(templateName, params)).toString();
 
         if (response.container)
         {
             response.containerParams.put("templateName", templateName);
+            response.containerParams.put("fc", fc);
+
             return renderContainer(output, response.containerParams);
         }
         else

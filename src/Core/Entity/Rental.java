@@ -11,10 +11,10 @@ public class Rental extends Abstract<Rental, Integer>
     @DatabaseField(generatedId = true)
     public int id;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public User user;
 
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     public Product product;
 
     @DatabaseField(canBeNull = false)
@@ -26,5 +26,20 @@ public class Rental extends Abstract<Rental, Integer>
     public Rental()
     {
         super(Core.EntityManager.Rental.class);
+    }
+
+    public enum Tier
+    {
+        zero, one, two, three;
+
+        public int value()
+        {
+            return ordinal();
+        }
+
+        public String label()
+        {
+            return String.format("Tier %d", value());
+        }
     }
 }

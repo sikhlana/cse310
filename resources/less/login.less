@@ -1,0 +1,46 @@
+body#login
+{
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  .wrapper
+  {
+    display: block;
+    width: 100%;
+  }
+
+  h3
+  {
+    font-weight: 600;
+    display: block;
+    margin: 5px 0 20px;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .login-form
+  {
+    display: block;
+    border-radius: 4px;
+    padding: 20px 20px 30px;
+
+    background: @content-bg;
+    border: 1px solid @form-field-input-border;
+
+    .remember-me
+    {
+      display: block;
+      font-size: 12px;
+      font-weight: 300;
+      padding: 3px;
+      text-align: right;
+    }
+  }
+
+  #powered-by
+  {
+    text-align: center;
+  }
+}

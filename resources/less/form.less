@@ -1,0 +1,112 @@
+form.form
+{
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 40px;
+
+  p.footer-text
+  {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300;
+    color: @form-footer-text-color;
+    margin: 5px 0 10px;
+  }
+
+  .button
+  {
+    width: 100%;
+    margin: 20px auto 0;
+    display: inline-block;
+  }
+}
+
+.form-field
+{
+  display: block;
+  position: relative;
+
+  .form-label,
+  .form-input
+  {
+    display: block;
+  }
+
+  .form-label
+  {
+    color: @form-field-label-color;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 20px 0 0 0;
+  }
+
+  .form-input
+  {
+    background: @form-field-input-bg;
+    line-height: 1.7;
+    padding: 8px 16px;
+    border: 1px solid @form-field-input-border;
+    border-radius: 3px;
+    width: 100%;
+    font-size: 15px;
+    height: 44px;
+  }
+
+  textarea.form-input
+  {
+    resize: vertical;
+    min-height: 50px;
+  }
+
+  .explain
+  {
+    color: @form-field-explain-color;
+    font-size: 13px;
+  }
+}
+
+.button
+{
+  display: inline-block;
+  margin: 10px 0;
+  width: 150px;
+  color: @button-default-color;
+  background: @button-default-bg;
+  line-height: 1.7;
+  padding: 8px 16px;
+  border: 1px solid @button-default-border;
+  border-radius: 3px;
+  text-align: center;
+  text-decoration: none !important;
+  transition: background-color .1s linear, border-color .1s linear;
+
+  &:hover
+  {
+    color: @button-default-hover-color;
+    border-color: @button-default-hover-border;
+    background: @button-default-hover-bg;
+  }
+
+  &.small
+  {
+    padding: 4px 8px;
+    width: auto;
+  }
+
+  &.primary
+  {
+    color: @button-primary-color;
+    border-color: @button-primary-border;
+    background: @button-primary-bg;
+
+    &:hover
+    {
+      color: @button-primary-hover-color;
+      border-color: @button-primary-hover-border;
+      background: @button-primary-hover-bg;
+    }
+  }
+}
