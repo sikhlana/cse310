@@ -4,12 +4,12 @@
 A simple Java-based application to handle stock management for a store with Point-of-Sale terminal where customers can checkout their purchases along with a web-based e-commerce site when customers can make online purchases with real-time statistics and more.
 
 ## Members:
-* Tanzida Sultan
-* A M Saip Mahmood
-* Fakhim MD Rafiz
-* Shahrukh Sattar Chudury
-* Ruhit Rafian Pion
-* Saggad Hossain
+* Tanjida Sultana
+* A M Saif Mahmud
+* Fahim MD Rafiq
+* Shahrukh Sattar Chowdhury
+* Ruhit Rafian Prinon
+* Sazzad Hossain
 
 ---
 
