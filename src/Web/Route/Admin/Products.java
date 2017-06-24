@@ -14,7 +14,7 @@ public class Products implements MatchInterface, BuildInterface
     @Override
     public Router.Match match(String path, Router router, ParameterBag params)
     {
-        String action = router.resolveActionWithIntegerParam(path, params, "id");
+        String action = router.resolveActionWithIntegerParam(path, params, "product_id");
         return new Router.Match(Product.class, action, "products");
     }
 

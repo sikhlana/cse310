@@ -25,6 +25,9 @@ public class Administration implements MatchInterface, BuildInterface
         index(Web.Route.Admin.Home.class),
         pos(Web.Route.Admin.Pos.class),
         products(Web.Route.Admin.Products.class),
+        suppliers(Web.Route.Admin.Suppliers.class),
+        users(Web.Route.Admin.Users.class),
+        rentals(Web.Route.Admin.Rentals.class),
         ;
 
         final public Class<? extends MatchInterface> route;
