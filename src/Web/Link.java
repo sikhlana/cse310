@@ -125,8 +125,8 @@ public class Link
         int idValue = (int) data.get(id);
         String titleValue = (String) data.getOrDefault(title, null);
 
-        return title == null ? String.format("/%s/%d/%s", prefix, idValue, action)
-                : String.format("/%s/%s.%d/%s", prefix, titleValue, idValue, action);
+        return titleValue == null ? String.format("/%s/%d/%s", prefix, idValue, action)
+                : String.format("/%s/%s.%d/%s", prefix, normalizeTitle(titleValue), idValue, action);
     }
 
     public String buildLinkWithIntegerParam(String prefix, String action, Map<String, Object> data, String id)
@@ -137,6 +137,12 @@ public class Link
     private BuildInterface getRoute(String prefix)
     {
         return getRoute(prefix, Router.Routes.values());
+    }
+
+    private String normalizeTitle(String str)
+    {
+        return str.toLowerCase().replaceAll("[^a-z0-9]", "-")
+                  .replaceAll("-{2,}", "-").replaceAll("(^-|-$)", "");
     }
 
     public String build(String action, Enum[] routes, Map<String, Object> data, Map<String, Object> params)
