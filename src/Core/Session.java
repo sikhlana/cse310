@@ -19,4 +19,6 @@ public interface Session
     void kill();
 
     void save();
+
+    void setRememberToken(String token);
 }

@@ -36,7 +36,7 @@ public class Session implements Core.Session
 
                 try
                 {
-                    EntityManager.User userManager = new EntityManager.User();
+                    EntityManager.User userManager = (EntityManager.User) EntityManager.getManagerInstance(EntityManager.User.class);
                     user = userManager.queryForRememberToken(remember);
                 }
                 catch (SQLException ignore) { }
@@ -99,6 +99,19 @@ public class Session implements Core.Session
     public void setUser(User user)
     {
         session.user = user;
+    }
+
+    @Override
+    public void setRememberToken(String token)
+    {
+        try
+        {
+            getUser().remember_token = token;
+            getUser().update();
+
+            fc.getResponse().setCookie("remember_token", token, 30);
+        }
+        catch (SQLException ignored) { }
     }
 
     @Override
