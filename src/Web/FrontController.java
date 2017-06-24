@@ -60,6 +60,11 @@ public class FrontController
             return returnCssMapOutput();
         }
 
+        if (request.getPath().endsWith(".less"))
+        {
+            return returnStaticFile("../less" + request.getPath());
+        }
+
         if (request.getPath().startsWith("/static/"))
         {
             return returnStaticFile(request.getPath().substring(8));
