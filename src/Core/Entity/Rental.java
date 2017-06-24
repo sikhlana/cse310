@@ -2,6 +2,7 @@ package Core.Entity;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -18,6 +19,9 @@ public class Rental extends Abstract<Rental, Integer>
     public Product product;
 
     @DatabaseField(canBeNull = false)
+    public Rental.Status status;
+
+    @DatabaseField(canBeNull = false)
     public Date rented_at;
 
     @DatabaseField
@@ -28,18 +32,25 @@ public class Rental extends Abstract<Rental, Integer>
         super(Core.EntityManager.Rental.class);
     }
 
-    public enum Tier
+    public enum Tier implements Abstract.FieldEnum
     {
         zero, one, two, three;
 
-        public int value()
-        {
-            return ordinal();
-        }
-
+        @Override
         public String label()
         {
-            return String.format("Tier %d", value());
+            return String.format("Tier %d", ordinal());
+        }
+    }
+
+    public enum Status implements FieldEnum
+    {
+        pending, active, ended, expired;
+
+        @Override
+        public String label()
+        {
+            return StringUtils.capitalize(name());
         }
     }
 }

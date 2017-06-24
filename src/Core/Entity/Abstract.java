@@ -55,4 +55,9 @@ public abstract class Abstract<T, ID> extends BaseDaoEnabled<T, ID>
 
         return super.update();
     }
+
+    public interface FieldEnum
+    {
+        String label();
+    }
 }

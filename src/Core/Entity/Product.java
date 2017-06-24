@@ -3,8 +3,10 @@ package Core.Entity;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 @DatabaseTable(tableName = "products", daoClass = Core.EntityManager.Product.class)
@@ -31,8 +33,8 @@ public class Product extends Abstract<Product, Integer>
     @DatabaseField(canBeNull = false)
     public Product.Type type;
 
-    @DatabaseField(canBeNull = false)
-    public int rental_tier;
+    @DatabaseField(canBeNull = false, dataType = DataType.ENUM_INTEGER)
+    public Rental.Tier rental_tier;
 
     @DatabaseField(canBeNull = false, dataType = DataType.SERIALIZABLE)
     public HashMap<String, Object> meta;
@@ -48,20 +50,14 @@ public class Product extends Abstract<Product, Integer>
         super(Core.EntityManager.Product.class);
     }
 
-    public enum Type
+    public enum Type implements FieldEnum
     {
-        game("Game"), accessories("Accessories"), console("Console");
+        game, accessories, console;
 
-        private String title;
-
-        Type(String title)
+        @Override
+        public String label()
         {
-            this.title = title;
-        }
-
-        public String title()
-        {
-            return title;
+            return StringUtils.capitalize(name());
         }
     }
 }

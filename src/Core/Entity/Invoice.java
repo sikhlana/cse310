@@ -2,6 +2,7 @@ package Core.Entity;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -18,6 +19,9 @@ public class Invoice extends Abstract<Invoice, Integer>
     public Order order;
 
     @DatabaseField(canBeNull = false)
+    public Invoice.Status status;
+
+    @DatabaseField(canBeNull = false)
     public double total_price;
 
     @DatabaseField(canBeNull = false)
@@ -32,6 +36,17 @@ public class Invoice extends Abstract<Invoice, Integer>
     public Invoice()
     {
         super(Core.EntityManager.Invoice.class);
+    }
+
+    public enum Status implements FieldEnum
+    {
+        pending, paid, expired, refunded;
+
+        @Override
+        public String label()
+        {
+            return StringUtils.capitalize(name());
+        }
     }
 }
 
