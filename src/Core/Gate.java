@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Gate
 {
-    public static void auth(Session session, String email, String password) throws SQLException
+    public static void auth(Session session, String email, String password, boolean remember) throws SQLException, Exception
     {
         EntityManager.User manager = (EntityManager.User) EntityManager.getManagerInstance(EntityManager.User.class);
         User user = manager.queryForEmail(email);
@@ -22,9 +22,14 @@ public class Gate
         }
 
         session.setUser(user);
+
+        if (remember)
+        {
+            session.setRememberToken(Hash.generateSalt(64));
+        }
     }
 
-    public static class Exception extends RuntimeException { }
-    static class UserNotFoundException extends Exception { }
-    static class PasswordMismatchException extends Exception { }
+    public static class Exception extends java.lang.Exception { }
+    public static class UserNotFoundException extends Exception { }
+    public static class PasswordMismatchException extends Exception { }
 }

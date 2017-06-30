@@ -10,6 +10,8 @@ public interface Session
 
     void set(String key, Object value);
 
+    boolean has(String key);
+
     void delete(String key);
 
     void setUser(User user);
@@ -19,4 +21,6 @@ public interface Session
     void kill();
 
     void save();
+
+    void setRememberToken(String token);
 }

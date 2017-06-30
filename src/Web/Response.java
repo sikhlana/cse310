@@ -7,7 +7,6 @@ import fi.iki.elonen.NanoHTTPD;
 
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class Response
@@ -40,13 +39,15 @@ public class Response
 
     public void unsetCookie(String name)
     {
-        session.getCookies().delete(name);
+        setCookie(name, "~delete~", -30);
     }
 
     NanoHTTPD.Response send(Abstract renderer)
     {
+        InputStream stream = renderer.getStream();
+
         HttpResponse http = new HttpResponse(
-                renderer.getResponseStatus(), renderer.getMimeType(), renderer.getStream(), renderer.getContentLength()
+                renderer.getResponseStatus(), renderer.getMimeType(), stream, renderer.getContentLength()
         );
 
         for (Map.Entry<String, String> pair : headers.entrySet())

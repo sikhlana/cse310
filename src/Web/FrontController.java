@@ -142,6 +142,11 @@ public class FrontController
                             matched = router.getServerErrorRouteMatch();
                             breakLoop = false;
                         }
+                        else
+                        {
+                            // Doing some finalization for the controller...
+                            controller.postDispatch(controllerResponse);
+                        }
                     }
                     catch (NoSuchMethodException e)
                     {
@@ -159,14 +164,6 @@ public class FrontController
                     matched = router.getServerErrorRouteMatch();
                     breakLoop = false;
                 }
-                finally
-                {
-                    // Doing some finalization for the controller...
-                    if (controllerResponse != null)
-                    {
-                        controller.postDispatch(controllerResponse);
-                    }
-                }
             }
             while (!breakLoop && count++ < 100);
 
@@ -179,10 +176,10 @@ public class FrontController
             session.save();
             Core.App.log("Response: %s", controllerResponse.getClass().getName());
 
-            if (controllerResponse instanceof Redirect)
+            /*if (controllerResponse instanceof Redirect)
             {
                 return returnHttpRedirect((Redirect) controllerResponse);
-            }
+            }*/
 
             controllerResponse.containerParams.put("section", matched.section == null ? "" : matched.section);
             Web.ViewRenderer.Abstract renderer;

@@ -9,10 +9,10 @@ public class Router
 {
     public Match match(Request request, ParameterBag params)
     {
-        return match(getRoutePath(request), Routes.values(), params);
+        return match(getRoutePath(request), Routes.class, params);
     }
 
-    public Match match(String routePath, Enum[] routes, ParameterBag params)
+    public Match match(String routePath, Class<? extends Enum> routes, ParameterBag params)
     {
         String pieces[] = routePath.split("/", 2);
         Route info = null; String prefix; MatchInterface route;
@@ -35,12 +35,20 @@ public class Router
             routePath = pieces[1];
         }
 
-        for (Enum en : routes)
+        try
         {
-            if (prefix.equals(en.name()))
+            info = (Route) ((Enum) Enum.valueOf(routes, prefix));
+        }
+        catch (IllegalArgumentException ignore) { }
+
+        if (info == null)
+        {
+            try
             {
-                info = (Route) en;
+                info = (Route) ((Enum) Enum.valueOf(routes, "defaultRoute"));
+                routePath = prefix + "/" + routePath;
             }
+            catch (IllegalArgumentException ignore) { }
         }
 
         if (info == null)
@@ -132,6 +140,7 @@ public class Router
     {
         index(Home.class),
         login(Login.class),
+        register(Register.class),
         logout(Logout.class),
         products(Products.class),
         users(Users.class),

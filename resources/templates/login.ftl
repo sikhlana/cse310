@@ -5,7 +5,7 @@ ${container("body", "login")}
 <div class="wrapper">
     <h3>Login</h3>
 
-    <form class="form login-form" action="${link("login/login")}" method="post">
+    <form class="form login-form ajax-form" action="${link("login/login")}" method="post">
         <#if error??>
             ${error}
         </#if>
@@ -23,8 +23,10 @@ ${container("body", "login")}
         <button type="submit" class="button primary" tabindex="4">Login</button>
         <label class="remember-me"><input type="checkbox" name="remember" checked tabindex="3" /> Remember Me</label>
 
-        <#if redirect??>
-            <input type="hidden" name="redirect" value="${redirect}" />
+        <a class="button secondary" href="${link("register")}">Don't have an account? Register!</a>
+
+        <#if _redirect??>
+            <input type="hidden" name="redirect" value="${_redirect}" />
         </#if>
 
         <input type="hidden" name="_token" value="${fc.getSession().getCsrfToken()}" />

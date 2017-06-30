@@ -13,7 +13,13 @@
     </section>
 
     <footer id="footer">
-
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <p id="powered-by">Made with &hearts; by <i>Onegai Sensei</i>.</p>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

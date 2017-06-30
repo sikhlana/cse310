@@ -1,9 +1,8 @@
 package Web.ViewRenderer;
 
+import Web.ControllerResponse.*;
 import Web.ControllerResponse.Abstract;
 import Web.ControllerResponse.Error;
-import Web.ControllerResponse.Message;
-import Web.ControllerResponse.View;
 import Web.FrontController;
 import Web.Template;
 import org.json.simple.JSONObject;
@@ -36,13 +35,29 @@ public class Json extends Web.ViewRenderer.Abstract
             map.put("params", response.json);
         }
 
-        if (response instanceof Message)
+        if (response instanceof Redirect)
+        {
+            String location = ((Redirect) response).target == null
+                    ? ((Redirect) response).basic
+                    : ((Redirect) response).target.toString();
+
+            map.put("redirect", location);
+            response.code = 200;
+        }
+        else if (response instanceof Message)
         {
             map.put("message", ((Message) response).message);
         }
         else if (response instanceof Error)
         {
-            map.put("error", ((Error) response).error);
+            if (((Error) response).errors != null)
+            {
+                map.put("error", ((Error) response).errors);
+            }
+            else
+            {
+                map.put("error", ((Error) response).error);
+            }
         }
         else if (response instanceof View)
         {

@@ -117,6 +117,12 @@ public class Request
 
         private void parse(Map<String, Object> params, String name, String value)
         {
+            value = value.trim();
+            if (value.isEmpty())
+            {
+                return;
+            }
+
             name = name.replaceAll("\\.{2,}", ".").replaceAll("(^\\.|\\.$)", "");
 
             if (name.contains("."))
@@ -174,7 +180,26 @@ public class Request
 
         public Object get(String name)
         {
-            return params.get(name);
+            String pieces[] = name.replaceAll("\\.{2,}", ".").replaceAll("(^\\.|\\.$)", "").split("\\.");
+            Map<String, Object> params = this.params;
+            Object out = null;
+
+            for (String piece : pieces)
+            {
+                out = params.get(piece);
+                if (out == null)
+                {
+                    //throw new RuntimeException("The specified parameter '" + name + "' could not be found.");
+                    return null;
+                }
+
+                if (out instanceof Map)
+                {
+                    params = (Map) out;
+                }
+            }
+
+            return out;
         }
 
         public String single(String name)

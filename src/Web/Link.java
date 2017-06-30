@@ -125,8 +125,8 @@ public class Link
         int idValue = (int) data.get(id);
         String titleValue = (String) data.getOrDefault(title, null);
 
-        return title == null ? String.format("/%s/%d/%s", prefix, idValue, action)
-                : String.format("/%s/%s.%d/%s", prefix, titleValue, idValue, action);
+        return titleValue == null ? String.format("/%s/%d/%s", prefix, idValue, action)
+                : String.format("/%s/%s.%d/%s", prefix, normalizeTitle(titleValue), idValue, action);
     }
 
     public String buildLinkWithIntegerParam(String prefix, String action, Map<String, Object> data, String id)
@@ -136,10 +136,16 @@ public class Link
 
     private BuildInterface getRoute(String prefix)
     {
-        return getRoute(prefix, Router.Routes.values());
+        return getRoute(prefix, Router.Routes.class);
     }
 
-    public String build(String action, Enum[] routes, Map<String, Object> data, Map<String, Object> params)
+    private String normalizeTitle(String str)
+    {
+        return str.toLowerCase().replaceAll("[^a-z0-9]", "-")
+                  .replaceAll("-{2,}", "-").replaceAll("(^-|-$)", "");
+    }
+
+    public String build(String action, Class<? extends Enum> routes, Map<String, Object> data, Map<String, Object> params)
     {
         String pieces[] = action.split("/", 2);
         String prefix;
@@ -167,7 +173,7 @@ public class Link
         {
             if (prefix.equals("index"))
             {
-                return "";
+                return action;
             }
             else
             {
@@ -178,16 +184,23 @@ public class Link
         return route.build(prefix, action, this, data, params);
     }
 
-    private BuildInterface getRoute(String prefix, Enum[] routes)
+    private BuildInterface getRoute(String prefix, Class<? extends Enum> routes)
     {
         Router.Route info = null;
 
-        for (Enum en : routes)
+        try
         {
-            if (prefix.equals(en.name()))
+            info = (Router.Route) ((Enum) Enum.valueOf(routes, prefix));
+        }
+        catch (IllegalArgumentException ignore) { }
+
+        if (info == null)
+        {
+            try
             {
-                info = (Router.Route) en;
+                info = (Router.Route) ((Enum) Enum.valueOf(routes, "defaultRoute"));
             }
+            catch (IllegalArgumentException ignore) { }
         }
 
         if (info == null)

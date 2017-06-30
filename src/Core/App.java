@@ -118,13 +118,25 @@ public class App
         return source;
     }
 
+    private static DateFormat dateTimeFormat;
+
+    public static DateFormat getDateTimeFormat()
+    {
+        if (dateTimeFormat == null)
+        {
+            dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+
+        return dateTimeFormat;
+    }
+
     private static DateFormat dateFormat;
 
     public static DateFormat getDateFormat()
     {
         if (dateFormat == null)
         {
-            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateFormat = new SimpleDateFormat("yyy-MM-dd");
         }
 
         return dateFormat;

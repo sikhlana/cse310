@@ -11,8 +11,8 @@ public class Abstract extends Web.Controller.Abstract
     {
         if (fc.getSession().getUser() == null)
         {
-            fc.getSession().set("redirect", new Link("admin"));
-            throw new Exception(new Redirect("login"));
+            fc.getSession().set("redirect", fc.getRequest().getPath());
+            throw new Exception(new Redirect(new Link("login")));
         }
 
         if (!fc.getSession().getUser().is_staff)
