@@ -1,9 +1,8 @@
 package Web.ViewRenderer;
 
+import Web.ControllerResponse.*;
 import Web.ControllerResponse.Abstract;
 import Web.ControllerResponse.Error;
-import Web.ControllerResponse.Message;
-import Web.ControllerResponse.View;
 import Web.FrontController;
 import Web.Template;
 
@@ -28,6 +27,16 @@ public class Html extends Web.ViewRenderer.Abstract
     {
         String templateName = null;
         HashMap<String, Object> params = new HashMap<>();
+
+        if (response instanceof Redirect)
+        {
+            String location = ((Redirect) response).target == null
+                    ? ((Redirect) response).basic
+                    : ((Redirect) response).target.toString();
+
+            fc.getResponse().setHeader("Location", location, true);
+            return "";
+        }
 
         if (response instanceof Error)
         {

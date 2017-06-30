@@ -18,30 +18,44 @@
                             </li>
 
                             <li>
-                                <a class="navigation-link <#if section == 'pos'>selected</#if>" href="${link("admin/pos")}">
+                                <a class="navigation-link <#if section == 'pos'>selected</#if>" href="${adminlink("pos")}">
                                     <span class="icon"><i class="fa fa-desktop"></i></span>
                                     <p>Point of Sale</p>
                                 </a>
                             </li>
 
                             <li>
-                                <a class="navigation-link <#if section == 'products'>selected</#if>" href="${link("admin/products")}">
+                                <a class="navigation-link <#if section == 'products'>selected</#if>" href="${adminlink("products")}">
                                     <span class="icon"><i class="fa fa-shopping-bag"></i></span>
                                     <p>Products</p>
                                 </a>
                             </li>
 
                             <li>
-                                <a class="navigation-link <#if section == 'rentals'>selected</#if>" href="${link("admin/rentals")}">
+                                <a class="navigation-link <#if section == 'rentals'>selected</#if>" href="${adminlink("rentals")}">
                                     <span class="icon"><i class="fa fa-paper-plane-o"></i></span>
                                     <p>Rentals</p>
                                 </a>
                             </li>
 
                             <li>
-                                <a class="navigation-link <#if section == 'suppliers'>selected</#if>" href="${link("admin/suppliers")}">
-                                    <span class="icon"><i class="fa fa-users"></i></span>
+                                <a class="navigation-link <#if section == 'suppliers'>selected</#if>" href="${adminlink("suppliers")}">
+                                    <span class="icon"><i class="fa fa-truck"></i></span>
                                     <p>Suppliers</p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="navigation-link <#if section == 'users'>selected</#if>" href="${adminlink("users")}">
+                                    <span class="icon"><i class="fa fa-users"></i></span>
+                                    <p>Users</p>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="navigation-link <#if section == 'reports'>selected</#if>" href="${adminlink("reports")}">
+                                    <span class="icon"><i class="fa fa-file-text-o"></i></span>
+                                    <p>Reports</p>
                                 </a>
                             </li>
                         </ul>

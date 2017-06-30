@@ -3,7 +3,9 @@ package Web;
 import Core.Entity.Abstract;
 import Web.TemplateFunctions.AdminLink;
 import Web.TemplateFunctions.Container;
+import Web.TemplateFunctions.Js;
 import Web.TemplateFunctions.Link;
+import com.j256.ormlite.dao.ForeignCollection;
 import freemarker.template.*;
 
 import java.io.File;
@@ -84,22 +86,71 @@ public class Template
 
         for (Map.Entry<String, Object> entry : params.entrySet())
         {
-            Object value = entry.getValue();
-
-            if (value instanceof Abstract)
-            {
-                value = ((Abstract) value).map();
-            }
-
-            if (value instanceof Map)
-            {
-                value = prepareParams((Map) value);
-            }
-
-            out.put(entry.getKey(), value);
+            out.put(entry.getKey(), prepareParam(entry.getValue()));
         }
 
         return out;
+    }
+
+    private List prepareParams(List params)
+    {
+        List out = new LinkedList();
+
+        for (Object item : params)
+        {
+            out.add(prepareParam(item));
+        }
+
+        return out;
+    }
+
+    private Collection prepareParams(Collection params)
+    {
+        Collection out;
+
+        try
+        {
+            out = params.getClass().newInstance();
+        }
+        catch (InstantiationException | IllegalAccessException e)
+        {
+            return params;
+        }
+
+        for (Object item : params)
+        {
+            out.add(prepareParam(item));
+        }
+
+        return out;
+    }
+
+    private Object prepareParam(Object param)
+    {
+        if (param == null)
+        {
+            return null;
+        }
+
+        if (param instanceof Abstract)
+        {
+            param = prepareParams(((Abstract) param).map());
+        }
+
+        if (param instanceof Map)
+        {
+            param = prepareParams((Map) param);
+        }
+        else if (param instanceof List)
+        {
+            param = prepareParams((List) param);
+        }
+        else if (param instanceof Collection)
+        {
+            param = prepareParams((Collection) param);
+        }
+
+        return param;
     }
 
     public String toString()
@@ -112,6 +163,7 @@ public class Template
         link(new Link()),
         adminlink(new AdminLink()),
         container(new Container()),
+        js(new Js()),
         ;
 
         TemplateMethodModelEx model;
@@ -134,25 +186,19 @@ public class Template
                     return new Web.Link(route);
 
                 case 2:
-                    if (list.get(1) instanceof Abstract)
+                    if (list.get(1) instanceof SimpleHash)
                     {
-                        return new Web.Link(route, (Abstract) list.get(1));
+                        return new Web.Link(route, ((SimpleHash) list.get(1)).toMap());
                     }
-                    else if (list.get(1) instanceof Map)
-                    {
-                        return new Web.Link(route, (Map) list.get(1));
-                    }
+
+                    Core.App.dump(list.get(1));
 
                     throw new TemplateModelException("Invalid argument specified.");
 
                 case 3:
-                    if (list.get(1) instanceof Abstract)
+                    if (list.get(1) instanceof SimpleHash && list.get(2) instanceof SimpleHash)
                     {
-                        return new Web.Link(route, (Abstract) list.get(1), (Map) list.get(2));
-                    }
-                    else if (list.get(1) instanceof Map)
-                    {
-                        return new Web.Link(route, (Map) list.get(1), (Map) list.get(2));
+                        return new Web.Link(route, ((SimpleHash) list.get(1)).toMap(), ((SimpleHash) list.get(2)).toMap());
                     }
 
                     throw new TemplateModelException("Invalid argument specified.");

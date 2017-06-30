@@ -5,6 +5,29 @@ form.form
   max-width: 400px;
   margin: 20px auto 40px;
 
+  &.large
+  {
+    max-width: 800px;
+  }
+
+  hr
+  {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: @form-field-input-border;
+    border: none;
+    margin-bottom: 0;
+  }
+
+  h3.form-section-header
+  {
+    font-weight: 700;
+    color: @form-field-explain-color;
+    font-size: 12px;
+    margin: 10px 0 0;
+  }
+
   p.footer-text
   {
     text-align: center;
@@ -58,7 +81,7 @@ form.form
   textarea.form-input
   {
     resize: vertical;
-    min-height: 50px;
+    min-height: 100px;
   }
 
   .explain
@@ -66,6 +89,11 @@ form.form
     color: @form-field-explain-color;
     font-size: 13px;
   }
+}
+
+.form-input + .form-input
+{
+  margin-top: 10px;
 }
 
 .button

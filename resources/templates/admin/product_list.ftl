@@ -13,15 +13,17 @@ ${container("title", "Products")}
 
     <div class="row">
         <div class="col-xs-12">
-            <#if products??>
+            <#list products>
                 <ul id="item-list" class="products">
-                    <#list products as product>
-
-                    </#list>
+                    <#items as product>
+                        <li>
+                            ${adminlink('products/edit', product)}
+                        </li>
+                    </#items>
                 </ul>
             <#else>
                 <p id="empty-list">No products have been added yet.</p>
-            </#if>
+            </#list>
         </div>
     </div>
 </div>

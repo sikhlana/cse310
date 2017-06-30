@@ -14,7 +14,7 @@ public class Suppliers implements MatchInterface, BuildInterface
     @Override
     public Router.Match match(String path, Router router, ParameterBag params)
     {
-        String action = router.resolveActionWithIntegerParam(path, params, "id");
+        String action = router.resolveActionWithIntegerParam(path, params, "supplier_id");
         return new Router.Match(Supplier.class, action, "suppliers");
     }
 

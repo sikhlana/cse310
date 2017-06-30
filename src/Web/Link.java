@@ -136,7 +136,7 @@ public class Link
 
     private BuildInterface getRoute(String prefix)
     {
-        return getRoute(prefix, Router.Routes.values());
+        return getRoute(prefix, Router.Routes.class);
     }
 
     private String normalizeTitle(String str)
@@ -145,7 +145,7 @@ public class Link
                   .replaceAll("-{2,}", "-").replaceAll("(^-|-$)", "");
     }
 
-    public String build(String action, Enum[] routes, Map<String, Object> data, Map<String, Object> params)
+    public String build(String action, Class<? extends Enum> routes, Map<String, Object> data, Map<String, Object> params)
     {
         String pieces[] = action.split("/", 2);
         String prefix;
@@ -173,7 +173,7 @@ public class Link
         {
             if (prefix.equals("index"))
             {
-                return "";
+                return action;
             }
             else
             {
@@ -184,16 +184,23 @@ public class Link
         return route.build(prefix, action, this, data, params);
     }
 
-    private BuildInterface getRoute(String prefix, Enum[] routes)
+    private BuildInterface getRoute(String prefix, Class<? extends Enum> routes)
     {
         Router.Route info = null;
 
-        for (Enum en : routes)
+        try
         {
-            if (prefix.equals(en.name()))
+            info = (Router.Route) ((Enum) Enum.valueOf(routes, prefix));
+        }
+        catch (IllegalArgumentException ignore) { }
+
+        if (info == null)
+        {
+            try
             {
-                info = (Router.Route) en;
+                info = (Router.Route) ((Enum) Enum.valueOf(routes, "defaultRoute"));
             }
+            catch (IllegalArgumentException ignore) { }
         }
 
         if (info == null)

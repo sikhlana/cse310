@@ -7,10 +7,7 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EntityManager extends DaoManager
 {
@@ -22,12 +19,70 @@ public class EntityManager extends DaoManager
         {
             try
             {
-                map.put(field.getName(), field.get(entity) == null ? "" : field.get(entity));
+                map.put(field.getName(), prepareEntityFieldValueForMap(field.getType(), field.get(entity)));
             }
             catch (IllegalAccessException ignored) { }
         }
 
         return map;
+    }
+
+    public static Object prepareEntityFieldValueForMap(Class<?> cls, Object value)
+    {
+        if (value == null)
+        {
+            return getNullValueForEntityField(cls);
+        }
+
+        if (Abstract.class.isAssignableFrom(cls))
+        {
+            return ((Abstract) value).map();
+        }
+
+        return value;
+    }
+
+    public static Object getNullValueForEntityField(Class<?> cls)
+    {
+        if (Number.class.isAssignableFrom(cls))
+        {
+            {
+                if (Integer.class.equals(cls))
+                {
+                    return 0;
+                }
+                if (Float.class.equals(cls))
+                {
+                    return 0.0;
+                }
+                if (Double.class.equals(cls))
+                {
+                    return 0D;
+                }
+                if (Long.class.equals(cls))
+                {
+                    return 0L;
+                }
+                if (Byte.class.equals(cls))
+                {
+                    return (byte) 0;
+                }
+
+                throw new IllegalArgumentException("Invalid numeric data type specified.");
+            }
+        }
+
+        if (String.class.equals(cls) || Enum.class.isAssignableFrom(cls))
+        {
+            return "";
+        }
+
+        if (Boolean.class.equals(cls))
+        {
+            return false;
+        }
+
+        return null;
     }
 
     private static Map<Class, Base> managers = new Hashtable<>();
@@ -108,6 +163,19 @@ public class EntityManager extends DaoManager
         public Product(ConnectionSource source) throws SQLException
         {
             super(source, Core.Entity.Product.class);
+        }
+    }
+
+    public static class ProductImage extends Base<Core.Entity.ProductImage, Integer>
+    {
+        public ProductImage() throws SQLException
+        {
+            super(Core.Entity.ProductImage.class);
+        }
+
+        public ProductImage(ConnectionSource source) throws SQLException
+        {
+            super(source, Core.Entity.ProductImage.class);
         }
     }
 

@@ -1,0 +1,49 @@
+.list-header
+{
+  text-transform: uppercase;
+  padding: 20px 10px;
+  background: #545775;
+  border-radius: 3px 3px 0 0;
+
+  h3
+  {
+    font-weight: 600;
+    font-size: 14px;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1;
+  }
+}
+
+.list-footer
+{
+  text-align: right;
+  background: #2e294e;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 300;
+  color: #ffffff;
+}
+
+#item-list
+{
+  list-style: none outside none;
+  display: block;
+  padding: 0;
+  margin: 0;
+  background: @content-bg;
+
+  > li
+  {
+    padding: 10px 0;
+    margin: 0;
+    display: block;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+
+  }
+
+  > li:hover
+  {
+    background: #daeffd;
+  }
+}

@@ -85,7 +85,13 @@ public class Session implements Core.Session
     public void set(String key, Object value)
     {
         saved = false;
-        session.data.put(key, value.toString());
+        session.data.put(key, value);
+    }
+
+    @Override
+    public boolean has(String key)
+    {
+        return session.data.containsKey(key);
     }
 
     @Override
