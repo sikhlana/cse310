@@ -1,5 +1,6 @@
 package Core.Entity;
 
+import Core.Cart;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -21,7 +22,7 @@ public class Order extends Abstract<Order, Integer>
     public Order.Status status;
 
     @DatabaseField(canBeNull = false, dataType = DataType.SERIALIZABLE)
-    public LinkedList<Product> product_list;
+    public LinkedList<Cart.Item> product_list;
 
     @DatabaseField(canBeNull = false)
     public Date created_at;
@@ -32,6 +33,12 @@ public class Order extends Abstract<Order, Integer>
     public Order()
     {
         super(Core.EntityManager.Order.class);
+    }
+
+    public Invoice createInvoice()
+    {
+        return null;
+        // todo
     }
 
     public enum Status implements FieldEnum

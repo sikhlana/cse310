@@ -7,7 +7,10 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 public class EntityManager extends DaoManager
 {
