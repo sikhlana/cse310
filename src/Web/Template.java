@@ -5,6 +5,7 @@ import Web.TemplateFunctions.AdminLink;
 import Web.TemplateFunctions.Container;
 import Web.TemplateFunctions.Js;
 import Web.TemplateFunctions.Link;
+import freemarker.cache.MruCacheStorage;
 import freemarker.template.*;
 
 import java.io.File;
@@ -16,7 +17,6 @@ public class Template
 {
     private static Configuration cfg = new Configuration(new Version(2, 3, 20));
     private static boolean configured = false;
-    private static Map<String, Object> defaultParams = new Hashtable<>();
 
     private String templateName;
     private HashMap<String, Object> params = new HashMap<>();
@@ -37,14 +37,14 @@ public class Template
                 throw new RuntimeException(e);
             }
 
-            cfg.setDefaultEncoding("UTF-8");
+            cfg.setDefaultEncoding(Core.App.ENCODING);
             cfg.setLocale(Locale.US);
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             configured = true;
 
             for (Functions fn : Functions.values())
             {
-                defaultParams.put(fn.name(), fn.model);
+                Helpers.defaultParams.put(fn.name(), fn.model);
             }
         }
     }
@@ -68,7 +68,7 @@ public class Template
             StringWriter writer = new StringWriter();
 
             freemarker.template.Template template = cfg.getTemplate(templateName + ".ftl");
-            params.putAll(defaultParams);
+            params.putAll(Helpers.defaultParams);
             template.process(prepareParams(params), writer);
 
             return writer.toString();
@@ -176,6 +176,7 @@ public class Template
     public static class Helpers
     {
         final public static Map<String, Object> containerParams = new Hashtable<>();
+        final public static Map<String, Object> defaultParams = new HashMap<>();
 
         public static Web.Link getLink(String route, List list) throws TemplateModelException
         {
