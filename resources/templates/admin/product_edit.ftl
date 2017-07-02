@@ -77,12 +77,12 @@ ${container("title", title)}
                     <#list product['meta']['fields'] as field>
                         <div class="form-field col-xs-6">
                             <label class="form-label" for="ctrl_meta_field">Field</label>
-                            <input type="text" id="ctrl_meta_field" name="meta.fields.name" class="form-input" value="${field['name']}" />
+                            <input type="text" id="ctrl_meta_field" name="meta.fields.name[]" class="form-input" value="${field['name']}" />
                         </div>
 
                         <div class="form-field col-xs-6">
                             <label class="form-label" for="ctrl_meta_value">Value</label>
-                            <input type="text" id="ctrl_meta_value" name="meta.fields.value" class="form-input" value="${field['value']}" />
+                            <input type="text" id="ctrl_meta_value" name="meta.fields.value[]" class="form-input" value="${field['value']}" />
                         </div>
                     </#list>
                 </#if>
@@ -91,12 +91,12 @@ ${container("title", title)}
             <div class="field-copy">
                 <div class="form-field col-xs-6">
                     <label class="form-label" for="ctrl_meta_field">Field</label>
-                    <input type="text" id="ctrl_meta_field" name="meta.fields.name" class="form-input" />
+                    <input type="text" id="ctrl_meta_field" name="meta.fields.name[]" class="form-input" />
                 </div>
 
                 <div class="form-field col-xs-6">
                     <label class="form-label" for="ctrl_meta_value">Value</label>
-                    <input type="text" id="ctrl_meta_value" name="meta.fields.value" class="form-input" />
+                    <input type="text" id="ctrl_meta_value" name="meta.fields.value[]" class="form-input" />
                 </div>
             </div>
 

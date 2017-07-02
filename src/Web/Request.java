@@ -123,7 +123,14 @@ public class Request
                 return;
             }
 
+            boolean isMulti = false;
             name = name.replaceAll("\\.{2,}", ".").replaceAll("(^\\.|\\.$)", "");
+
+            if (name.endsWith("[]"))
+            {
+                isMulti = true;
+                name = name.substring(0, name.length() - 2);
+            }
 
             if (name.contains("."))
             {
@@ -171,6 +178,13 @@ public class Request
 
                     params.put(name, l);
                 }
+            }
+            else if (isMulti)
+            {
+                List<String> l = new ArrayList<>();
+                l.add(value);
+
+                params.put(name, l);
             }
             else
             {
