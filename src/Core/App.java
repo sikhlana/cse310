@@ -1,6 +1,8 @@
 package Core;
 
-import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.db.MysqlDatabaseType;
+import com.j256.ormlite.jdbc.DataSourceConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.cli.CommandLine;
@@ -9,7 +11,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.flywaydb.core.Flyway;
 
-import javax.sql.DataSource;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -25,35 +26,18 @@ public class App
     {
         Options options = new Options();
 
-        options.addOption("nw", "no-web", false, "Disables the web application.")
-               .addOption("p", "port", true, "The port number the web app will be accessible from.")
-               .addOption("m", "migrate", false, "Runs the migration module.")
-               .addOption("s", "seed", false, "Seeds the database.");
+        options.addOption("p", "port", true, "The port number the web app will be accessible from.");
 
         CommandLine cmd = (new DefaultParser()).parse(options, args);
         opt = new Args(cmd);
 
-        if (cmd.hasOption("m"))
-        {
-            Flyway flyway = new Flyway();
-            flyway.setDataSource(getDb());
-            flyway.setLocations("filesystem:./db/migration");
-            flyway.migrate();
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(getDb());
+        flyway.setLocations("filesystem:./db/migration");
+        flyway.migrate();
 
-            return;
-        }
-
-        if (cmd.hasOption("s"))
-        {
-            Seeder.run();
-            return;
-        }
-
-        if (opt.web)
-        {
-            NanoHTTPD web = new Web.App();
-            web.start(opt.timeout, false);
-        }
+        NanoHTTPD web = new Web.App();
+        web.start(opt.timeout, false);
     }
 
     public static void log(String format, Object ...args)
@@ -78,7 +62,7 @@ public class App
 
     private static MysqlDataSource db;
 
-    public static DataSource getDb()
+    public static MysqlDataSource getDb()
     {
         if (db == null)
         {
@@ -95,24 +79,13 @@ public class App
         return db;
     }
 
-    private static JdbcPooledConnectionSource source;
+    private static ConnectionSource source;
 
-    public static JdbcPooledConnectionSource getDbConnectionSource()
+    public static ConnectionSource getDbConnectionSource() throws SQLException
     {
         if (source == null)
         {
-            try
-            {
-                source = new JdbcPooledConnectionSource(String.format(
-                        "jdbc:mysql://%s:%d/%s", opt.dbhost, opt.dbport, opt.dbname
-                ), opt.dbuser, opt.dbpasswd);
-
-                source.setTestBeforeGet(true);
-            }
-            catch (SQLException e)
-            {
-                throw new RuntimeException(e.getMessage());
-            }
+            source = new DataSourceConnectionSource(getDb(), new MysqlDatabaseType());
         }
 
         return source;
@@ -159,8 +132,6 @@ public class App
         public int port = 8080;
         public int timeout = 5000;
 
-        public boolean web = true;
-
         public String dbhost = "localhost";
         public int dbport = 3306;
         public String dbname = "cse310";
@@ -171,8 +142,6 @@ public class App
 
         private Args(CommandLine cmd)
         {
-            web = !cmd.hasOption("nw");
-
             if (cmd.hasOption("p"))
             {
                 port = Integer.parseInt(cmd.getOptionValue("p"));
