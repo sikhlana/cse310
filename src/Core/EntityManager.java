@@ -182,6 +182,19 @@ public class EntityManager extends DaoManager
         }
     }
 
+    public static class ProductRating extends Base<Core.Entity.ProductRating, Integer>
+    {
+        public ProductRating() throws SQLException
+        {
+            super(Core.Entity.ProductRating.class);
+        }
+
+        public ProductRating(ConnectionSource source) throws SQLException
+        {
+            super(source, Core.Entity.ProductRating.class);
+        }
+    }
+
     public static class Rental extends Base<Core.Entity.Rental, Integer>
     {
         public Rental() throws SQLException
