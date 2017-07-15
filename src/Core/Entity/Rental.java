@@ -45,7 +45,7 @@ public class Rental extends Abstract<Rental, Integer>
 
     public enum Status implements FieldEnum
     {
-        pending, active, ended, expired;
+        active, ended, expired;
 
         @Override
         public String label()

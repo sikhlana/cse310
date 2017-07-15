@@ -18,13 +18,19 @@ ${container("title", "Suppliers")}
                     <h3>Suppliers</h3>
                 </div>
 
-                <ul id="item-list" class="suppliers">
+                <ol id="supplier-list" class="item-list">
                     <#items as supplier>
-                        <li id="supplier-${supplier['id']}" class="list-item ${supplier?item_parity}">
-                            <a href="${adminlink("suppliers/edit", supplier)}"></a>
+                        <li>
+                            <a href="${adminlink("suppliers/edit", supplier)}" class="anchor">
+                                <h4 class="title">${supplier.name}</h4>
+                            </a>
+
+                            <a class="delete-item delete-button" href="${adminlink("suppliers/delete", supplier)}">
+                                <i class="fa fa-times"></i>
+                            </a>
                         </li>
                     </#items>
-                </ul>
+                </ol>
 
                 <div class="list-footer">
                     Showing ${suppliers?size} of ${suppliers?size} items.
