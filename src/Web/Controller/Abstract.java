@@ -20,7 +20,7 @@ import java.util.Map;
 abstract public class Abstract
 {
     protected FrontController fc;
-    private Router.Match routeMatch;
+    protected Router.Match routeMatch;
 
     protected boolean error = false;
 

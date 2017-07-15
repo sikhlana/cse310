@@ -23,7 +23,7 @@ public class Rental extends Abstract
         HashMap<String, Object> params = new HashMap<>();
         params.put("rentals", rentals);
 
-        return new View("admin/rental_list");
+        return new View("admin/rental_list",params);
     }
 
     public Object actionAdd() throws SQLException
@@ -42,7 +42,7 @@ public class Rental extends Abstract
 
         params.put("rental", rental);
 
-        return new View("admin/rental_edit");
+        return new View("admin/rental_edit",params);
     }
 
     public Object actionSave() throws SQLException, NoSuchFieldException, IllegalAccessException {
