@@ -37,6 +37,22 @@ public class Cart
         cart.add(item);
     }
 
+    public Item add(Product product)
+    {
+        for (Item i : cart)
+        {
+            if (i.product.equals(product))
+            {
+                i.count++;
+                return i;
+            }
+        }
+
+        Item item = new Item(product);
+        cart.add(item);
+        return item;
+    }
+
     public void remove(Item item)
     {
         cart.remove(item);
@@ -50,6 +66,17 @@ public class Cart
     public void clear()
     {
         cart.clear();
+    }
+
+    public double total(){
+        double totalPrice = 0;
+
+        for(Item i:cart){
+            totalPrice = totalPrice + (i.product.price*i.count);
+        }
+
+        return totalPrice;
+
     }
 
     public Order createOrder()
