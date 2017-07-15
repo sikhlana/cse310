@@ -17,6 +17,8 @@ public class Cart
 {
     final private List<Cart.Item> cart = new ArrayList<>();
 
+    private Core.Entity.User user;
+
     public static Cart getInstance(Session session)
     {
         if (!session.has("cart"))
@@ -53,6 +55,14 @@ public class Cart
         return item;
     }
 
+    public void setUser(Core.Entity.User user){
+        this.user = user;
+    }
+
+    public Core.Entity.User getUser(){
+        return user;
+    }
+
     public void remove(Item item)
     {
         cart.remove(item);
@@ -66,6 +76,7 @@ public class Cart
     public void clear()
     {
         cart.clear();
+        user = null;
     }
 
     public double total(){

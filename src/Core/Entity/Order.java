@@ -30,6 +30,9 @@ public class Order extends Abstract<Order, Integer>
     @DatabaseField(canBeNull = false)
     public double total_amount;
 
+    @DatabaseField(canBeNull = true)
+    public double discount;
+
     public Order()
     {
         super(Core.EntityManager.Order.class);

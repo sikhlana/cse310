@@ -22,7 +22,7 @@ public class User extends Abstract
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("users", users);
-        return new View("admin/user_list");
+        return new View("admin/user_list",params);
     }
 
     public Object actionAdd() throws SQLException
@@ -41,7 +41,7 @@ public class User extends Abstract
 
         params.put("user", user);
         params.put("countries", CountryCode.values());
-        return new View("admin/user_edit");
+        return new View("admin/user_edit",params);
     }
 
     public Object actionSave() throws SQLException, NoSuchFieldException, IllegalAccessException {
