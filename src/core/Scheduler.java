@@ -1,10 +1,11 @@
 package Core;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Scheduler extends Thread
 {
-    final private static ConcurrentLinkedQueue<Task> queue = new ConcurrentLinkedQueue<>();
+    final private static Queue<Task> queue = new PriorityQueue<>();
 
     @Override
     public void run()
