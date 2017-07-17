@@ -175,7 +175,7 @@ abstract public class Abstract
             Object value = null;
             if (field.getValue() instanceof String || field.getValue() == null)
             {
-                value = castSingleInputValueForEntity(f.getType(), (String) field.getValue());
+                value = castSingleInputValueForEntity(f.getName(), f.getType(), (String) field.getValue());
             }
             else
             {
@@ -186,11 +186,16 @@ abstract public class Abstract
         }
     }
 
-    private Object castSingleInputValueForEntity(Class<?> cls, String value) throws IllegalArgumentException, SQLException
+    private Object castSingleInputValueForEntity(String name, Class<?> cls, String value) throws IllegalArgumentException, SQLException
     {
         if (value == null || value.isEmpty())
         {
             return EntityManager.getNullValueForEntityField(cls);
+        }
+
+        if (cls.isPrimitive())
+        {
+            return castSinglePrimitiveInputValueForEntity(name, cls, value);
         }
 
         if (Number.class.isAssignableFrom(cls))
@@ -237,7 +242,7 @@ abstract public class Abstract
 
         if (Boolean.class.equals(cls))
         {
-            return !(value.equals("off") || value.equals("false") || value.equals("no"));
+            return !(value.equals("off") || value.equals("false") || value.equals("no") || value.equals("0"));
         }
 
         if (Date.class.equals(cls))
@@ -258,7 +263,33 @@ abstract public class Abstract
             return null;
         }
 
-        throw new IllegalArgumentException("Invalid data type specified.");
+        throw new IllegalArgumentException("Invalid data type specified for `" + name + "`.");
+    }
+
+    private Object castSinglePrimitiveInputValueForEntity(String name, Class<?> cls, String value)
+    {
+        switch (cls.getTypeName())
+        {
+            case "int":
+                return Integer.parseInt(value);
+
+            case "float":
+                return Float.parseFloat(value);
+
+            case "double":
+                return Double.parseDouble(value);
+
+            case "long":
+                return Long.parseLong(value);
+
+            case "byte":
+                return Byte.parseByte(value);
+
+            case "boolean":
+                return !(value.equals("off") || value.equals("false") || value.equals("no") || value.equals("0"));
+        }
+
+        throw new IllegalArgumentException("Invalid data type specified for `" + name + "`.");
     }
 
     protected Dao.CreateOrUpdateStatus saveEntity(Core.Entity.Abstract entity) throws SQLException

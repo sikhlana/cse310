@@ -47,32 +47,35 @@ public class EntityManager extends DaoManager
 
     public static Object getNullValueForEntityField(Class<?> cls)
     {
+        if (cls.isPrimitive())
+        {
+            return getPrimitiveNullValueForEntityField(cls);
+        }
+
         if (Number.class.isAssignableFrom(cls))
         {
+            if (Integer.class.equals(cls))
             {
-                if (Integer.class.equals(cls))
-                {
-                    return 0;
-                }
-                if (Float.class.equals(cls))
-                {
-                    return 0.0;
-                }
-                if (Double.class.equals(cls))
-                {
-                    return 0D;
-                }
-                if (Long.class.equals(cls))
-                {
-                    return 0L;
-                }
-                if (Byte.class.equals(cls))
-                {
-                    return (byte) 0;
-                }
-
-                throw new IllegalArgumentException("Invalid numeric data type specified.");
+                return 0;
             }
+            if (Float.class.equals(cls))
+            {
+                return 0.0;
+            }
+            if (Double.class.equals(cls))
+            {
+                return 0D;
+            }
+            if (Long.class.equals(cls))
+            {
+                return 0L;
+            }
+            if (Byte.class.equals(cls))
+            {
+                return (byte) 0;
+            }
+
+            throw new IllegalArgumentException("Invalid numeric data type specified.");
         }
 
         if (String.class.equals(cls) || Enum.class.isAssignableFrom(cls))
@@ -83,6 +86,32 @@ public class EntityManager extends DaoManager
         if (Boolean.class.equals(cls))
         {
             return false;
+        }
+
+        return null;
+    }
+
+    private static Object getPrimitiveNullValueForEntityField(Class<?> cls)
+    {
+        switch (cls.getTypeName())
+        {
+            case "int":
+                return 0;
+
+            case "float":
+                return 0.0;
+
+            case "double":
+                return 0D;
+
+            case "long":
+                return 0L;
+
+            case "byte":
+                return (byte) 0;
+
+            case "boolean":
+                return false;
         }
 
         return null;
