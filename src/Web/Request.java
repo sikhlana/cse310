@@ -71,6 +71,11 @@ public class Request
         return params().single(key);
     }
 
+    public boolean hasParam(String key)
+    {
+        return params().has(key);
+    }
+
     public String getFile(String key)
     {
         return files.get(key);
@@ -231,6 +236,11 @@ public class Request
             }
 
             return null;
+        }
+
+        public boolean has(String name)
+        {
+            return get(name) != null;
         }
     }
 }
