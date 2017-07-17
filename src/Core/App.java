@@ -36,6 +36,9 @@ public class App
         flyway.setLocations("filesystem:./db/migration");
         flyway.migrate();
 
+        Thread scheduler = new Scheduler();
+        scheduler.start();
+
         NanoHTTPD web = new Web.App();
         web.start(opt.timeout, false);
     }
