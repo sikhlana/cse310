@@ -1,8 +1,4 @@
 <#macro formAddress data street_1 street_2 city state zip country>
-<div class="col-xs-12">
-    <hr />
-</div>
-
 <div class="form-field col-xs-12">
     <label class="form-label" for="ctrl_${street_1}">Street Address</label>
     <input type="text" name="${street_1}" id="ctrl_${street_1}" class="form-input" value="${data[street_1]}" />

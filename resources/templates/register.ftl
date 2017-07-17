@@ -1,7 +1,6 @@
 ${container("containerTemplate", "PAGE_CONTAINER_SIMPLE")}
 ${container("title", "Register")}
 ${container("body", "login")}
-${js("zxcvbn.js", "register.js")}
 
 <div class="wrapper">
     <h3>Register</h3>

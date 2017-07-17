@@ -144,15 +144,15 @@ window.App =
         {
             if (typeof error.response === 'object')
             {
-                if (typeof error.response.error === 'string')
+                if (typeof error.response.data.error === 'string')
                 {
                     App.alert('error', 'Error', error.response.error);
                 }
-                else if (typeof error.response.data === 'object')
+                else if (typeof error.response.data.error === 'object')
                 {
                     App.alert('error', 'Error', 'There are error(s) in your request.');
 
-                    $.each(error.response.data, function(key, msg)
+                    $.each(error.response.data.error, function(key, msg)
                     {
                         $('[name=' + key + ']').eq(0).popover(
                         {
@@ -193,10 +193,9 @@ window.App =
  */
 
 require('./components/form');
-require('./components/facebook-login');
 require('./components/image-uploader');
 require('./components/sortable');
-require('./components/page-builder');
+require('./components/register');
 require('./components/pos');
 
 /**

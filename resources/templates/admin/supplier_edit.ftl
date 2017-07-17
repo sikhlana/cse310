@@ -30,6 +30,10 @@ ${container("title", title)}
                 <input type="email" name="email" id="ctrl_email" class="form-input" value="${supplier['email']}" />
             </div>
 
+            <div class="col-xs-12">
+                <hr />
+            </div>
+
             <#include '../partials/form_address.ftl'>
             <@formAddress supplier "address_street_1" "address_street_2" "address_city" "address_state" "address_zip" "address_country" />
 

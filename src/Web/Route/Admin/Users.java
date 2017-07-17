@@ -21,6 +21,7 @@ public class Users implements MatchInterface, BuildInterface
     @Override
     public String build(String prefix, String action, Link builder, Map<String, Object> data, Map<String, Object> params)
     {
-        return builder.buildLinkWithIntegerParam(prefix, action, data, "user_id", "name");
+        System.out.println(data);
+        return builder.buildLinkWithIntegerParam(prefix, action, data, "id", "name");
     }
 }

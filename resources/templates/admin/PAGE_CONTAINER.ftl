@@ -51,13 +51,6 @@
                                     <p>Users</p>
                                 </a>
                             </li>
-
-                            <li>
-                                <a class="navigation-link <#if section == 'reports'>selected</#if>" href="${adminlink("reports")}">
-                                    <span class="icon"><i class="fa fa-file-text-o"></i></span>
-                                    <p>Reports</p>
-                                </a>
-                            </li>
                         </ul>
                     </nav>
 

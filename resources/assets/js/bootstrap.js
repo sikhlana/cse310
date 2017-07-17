@@ -43,3 +43,4 @@ window.swal = require('sweetalert');
 window.NProgress = require('nprogress');
 
 require('./jquery-sortable');
+window.zxcvbn = require('./zxcvbn');
