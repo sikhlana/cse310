@@ -50,21 +50,6 @@ public class FrontController
             return returnBasicErrorHtml(exception.getCode());
         }
 
-        if (request.getPath().endsWith(".css"))
-        {
-            return returnCssOutput();
-        }
-
-        if (request.getPath().endsWith(".css.map"))
-        {
-            return returnCssMapOutput();
-        }
-
-        if (request.getPath().endsWith(".less"))
-        {
-            return returnStaticFile("../less" + request.getPath());
-        }
-
         if (request.getPath().startsWith("/static/"))
         {
             return returnStaticFile(request.getPath().substring(8));
@@ -206,63 +191,6 @@ public class FrontController
         }
 
         return returnBasicErrorHtml(500);
-    }
-
-    private NanoHTTPD.Response returnCssOutput()
-    {
-        try
-        {
-            File file = new File("./resources/less/app.less");
-
-            LessCompiler compiler = new DefaultLessCompiler();
-            LessCompiler.CompilationResult result = compiler.compile(file);
-
-            String output = result.getCss();
-
-            return new Response.HttpResponse(
-                    NanoHTTPD.Response.Status.OK, "text/css",
-                    new ByteArrayInputStream(App.getBytes(output)), (long) output.length()
-            );
-        }
-        catch (Less4jException e)
-        {
-            return returnBasicErrorHtml(500);
-        }
-    }
-
-    private NanoHTTPD.Response returnCssMapOutput()
-    {
-        try
-        {
-            File file = new File("./resources/less/app.less");
-
-            LessCompiler compiler = new DefaultLessCompiler();
-            LessCompiler.CompilationResult result = compiler.compile(file);
-
-            String output = result.getSourceMap();
-
-            return new Response.HttpResponse(
-                    NanoHTTPD.Response.Status.OK, "application/json",
-                    new ByteArrayInputStream(App.getBytes(output)), (long) output.length()
-            );
-        }
-        catch (Less4jException e)
-        {
-            return returnBasicErrorHtml(500);
-        }
-    }
-
-    private NanoHTTPD.Response returnHttpRedirect(Redirect response)
-    {
-        String location = response.target == null ? response.basic : response.target.toString();
-
-        NanoHTTPD.Response http = new Response.HttpResponse(
-                NanoHTTPD.Response.Status.lookup(response.code), "text/html",
-                new ByteArrayInputStream(new byte[]{}), 0L
-        );
-
-        http.addHeader("Location", location);
-        return http;
     }
 
     private NanoHTTPD.Response returnStaticFile(String path)
