@@ -23,6 +23,7 @@ public class Request
             case HEAD:
             case GET:
             case POST:
+            case PUT:
             case DELETE:
                 break;
 
@@ -93,6 +94,11 @@ public class Request
     public boolean isPost()
     {
         return session.getMethod().equals(NanoHTTPD.Method.POST);
+    }
+
+    public boolean isPut()
+    {
+        return session.getMethod().equals(NanoHTTPD.Method.PUT);
     }
 
     public boolean isDelete()

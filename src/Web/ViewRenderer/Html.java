@@ -35,7 +35,7 @@ public class Html extends Web.ViewRenderer.Abstract
                     : ((Redirect) response).target.toString();
 
             fc.getResponse().setHeader("Location", location, true);
-            return "";
+            return "<!doctype html><html><head><title>Redirecting...</title><meta http-equiv=\"refresh\" content=\"0; URL='" + location + "'\"</head><body><h1>Redirecting...</h1></body></html>";
         }
 
         if (response instanceof Error)

@@ -126,6 +126,22 @@ abstract public class Abstract
         }
     }
 
+    protected void assertPutOnly()
+    {
+        if (!fc.getRequest().isPut())
+        {
+            throw new Exception(new Error("This page can only be accessed via PUT only.", 400));
+        }
+    }
+
+    protected void assertDeleteOnly()
+    {
+        if (!fc.getRequest().isDelete())
+        {
+            throw new Exception(new Error("This page can only be accessed via DELETE only.", 400));
+        }
+    }
+
     protected void assertHasErrors()
     {
         if (fc.getSession().has("error"))
