@@ -11,4 +11,8 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'resources/static/js');
+mix.js('resources/assets/js/app.js', 'resources/static/js');
+mix.less('resources/assets/less/app.less', 'resources/static/css');
+mix.sass('resources/assets/scss/libs.scss', 'resources/static/css');
+
+mix.disableNotifications();
