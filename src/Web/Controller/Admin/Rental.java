@@ -72,7 +72,7 @@ public class Rental extends Abstract
 
     public Object actionDelete(ParameterBag params) throws SQLException
     {
-        assertPostOnly();
+        assertDeleteOnly();
 
         Core.Entity.Rental rental = getRentalOrError((int) params.get("rental_id"));
         rental.delete();

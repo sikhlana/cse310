@@ -74,7 +74,7 @@ public class Supplier extends Abstract
 
     public Object actionDelete(ParameterBag params) throws SQLException
     {
-        assertPostOnly();
+        assertDeleteOnly();
 
         Core.Entity.Supplier supplier = getSupplierOrError((int) params.get("supplier_id"));
         supplier.delete();

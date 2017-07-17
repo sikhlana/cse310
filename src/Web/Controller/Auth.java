@@ -110,10 +110,8 @@ public class Auth extends Abstract
             }
         }
 
-        assertHasErrors();
-
         EntityManager.User manager = (EntityManager.User) EntityManager.getManagerInstance(EntityManager.User.class);
-        Core.Entity.User user = manager.queryForEmail((String) input.get("email"));
+        Core.Entity.User user = manager.queryForEmail(input.get("email") == null ? "" : (String) input.get("email"));
 
         if (user != null)
         {

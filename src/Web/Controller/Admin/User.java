@@ -2,7 +2,9 @@ package Web.Controller.Admin;
 
 import Core.Entity.*;
 import Core.EntityManager;
+import Core.Hash;
 import Core.ParameterBag;
+import Web.ControllerResponse.Error;
 import Web.ControllerResponse.Exception;
 import Web.ControllerResponse.Redirect;
 import Web.ControllerResponse.View;
@@ -66,6 +68,11 @@ public class User extends Abstract
                 "shipping_state","shipping_zip","shipping_country","purchase_point"
         );
 
+        if (fc.getRequest().hasParam("password"))
+        {
+            input.put("password", Hash.generate(fc.getRequest().getParam("password")));
+        }
+
         setEntityFields(user, input);
         saveEntity(user);
 
@@ -74,9 +81,15 @@ public class User extends Abstract
 
     public Object actionDelete(ParameterBag params) throws SQLException
     {
-        assertPostOnly();
+        assertDeleteOnly();
 
         Core.Entity.User user = getUserOrError((int) params.get("user_id"));
+
+        if (user.id == fc.getSession().getUser().id)
+        {
+            return new Error("You cannot delete your own account.");
+        }
+
         user.delete();
 
         return new Redirect(new Link("admin/users"));

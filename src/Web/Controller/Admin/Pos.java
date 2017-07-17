@@ -74,7 +74,7 @@ public class Pos extends Abstract
         return new Message("Cart Cleared");
     }
 
-    public Object actionCheckout(){
+    public Object actionCheckout() throws SQLException {
         Core.Cart c = Core.Cart.getInstance(fc.getSession());
 
         Order order = c.createOrder();
@@ -84,9 +84,11 @@ public class Pos extends Abstract
 
         order.status = Order.Status.completed;
 
-        order.discount = discount;
-
         Invoice i = order.createInvoice();
+        i.discount = discount;
+
+        saveEntity(i);
+        saveEntity(order);
 
         HashMap<String, Object> params = new HashMap<>();
 
