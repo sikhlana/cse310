@@ -5,7 +5,6 @@ import Web.TemplateFunctions.AdminLink;
 import Web.TemplateFunctions.Container;
 import Web.TemplateFunctions.Js;
 import Web.TemplateFunctions.Link;
-import freemarker.cache.MruCacheStorage;
 import freemarker.template.*;
 
 import java.io.File;

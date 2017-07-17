@@ -1,6 +1,5 @@
 package Web.Controller;
 
-import Web.ControllerResponse.Message;
 import Web.ControllerResponse.View;
 
 public class Home extends Abstract

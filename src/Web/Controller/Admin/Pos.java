@@ -1,6 +1,8 @@
 package Web.Controller.Admin;
 
-import Core.Entity.*;
+import Core.Entity.Invoice;
+import Core.Entity.Order;
+import Core.Entity.Product;
 import Web.ControllerResponse.Error;
 import Web.ControllerResponse.Message;
 import Web.ControllerResponse.View;
