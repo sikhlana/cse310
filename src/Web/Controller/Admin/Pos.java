@@ -1,11 +1,14 @@
 package Web.Controller.Admin;
 
+import Core.Cart;
 import Core.Entity.Invoice;
 import Core.Entity.Order;
 import Core.Entity.Product;
 import Web.ControllerResponse.Error;
 import Web.ControllerResponse.Message;
+import Web.ControllerResponse.Redirect;
 import Web.ControllerResponse.View;
+import Web.Link;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -15,7 +18,12 @@ public class Pos extends Abstract
 {
     public Object actionIndex()
     {
-        return new View("admin/pos");
+        Cart cart = Cart.getInstance(fc.getSession());
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("products", cart.getProductListForView());
+        params.put("total", cart.total());
+
+        return new View("admin/pos", params);
     }
 
     public Object actionSearch() throws SQLException {
@@ -27,7 +35,7 @@ public class Pos extends Abstract
         List<Product> ls = manager.queryForEq("sku",sku);
 
         if(ls == null || ls.isEmpty()){
-            return new Error("No product found");
+            return new Error("No product found!");
         }
 
         Product p = ls.get(0);
@@ -35,18 +43,21 @@ public class Pos extends Abstract
         Core.Cart c = Core.Cart.getInstance(fc.getSession());
         Core.Cart.Item item = c.add(p);
 
-        View view = new View("v");
+        HashMap<String, Object> params = new HashMap<>();
 
-        this.routeMatch.responseType = "json";
+        params.put("product", p);
+        params.put("quantity", item.count);
+
+        View view = new View("admin/pos/list-item", params);
+
+        this.routeMatch.setResponseType("json");
         view.json.put("product_id",p.id);
         view.json.put("product_qty",item.count);
 
-
-        view.json.put("total_price",c.total());
         view.json.put("product_price",p.price);
         view.json.put("product_title",p.title);
 
-        return view;
+        return basicPosResponse(view);
 
 
     }
@@ -67,13 +78,13 @@ public class Pos extends Abstract
 
         Message m = new Message("User added");
         m.json.put("purchase_points",user.purchase_point);
-        return m;
+        return basicPosResponse(m);
     }
 
     public Object actionClear(){
         Core.Cart c = Core.Cart.getInstance(fc.getSession());
         c.clear();
-        return new Message("Cart Cleared");
+        return basicPosResponse(new Redirect(new Link("admin/pos")));
     }
 
     public Object actionCheckout() throws SQLException {
@@ -96,7 +107,7 @@ public class Pos extends Abstract
 
         params.put("invoice", i);
 
-        return new View("admin/pos_invoice", params);
+        return basicPosResponse(new View("admin/pos_invoice", params));
 
 
     }
@@ -118,8 +129,50 @@ public class Pos extends Abstract
 
         m.json.put("discount",discount);
 
-        return m;
+        return basicPosResponse(m);
 
+    }
+
+    public Object actionDeleteItem()
+    {
+        assertDeleteOnly();
+        Core.Cart c = Core.Cart.getInstance(fc.getSession());
+
+        c.remove(Integer.parseInt(fc.getRequest().getParam("id")));
+
+        return basicPosResponse(new Redirect(new Link("admin/pos")));
+    }
+
+    public Object actionSetQty()
+    {
+        assertPostOnly();
+        Core.Cart c = Core.Cart.getInstance(fc.getSession());
+        int productId = Integer.parseInt(fc.getRequest().getParam("product_id"));
+        int quantity = Integer.parseInt(fc.getRequest().getParam("quantity"));
+        boolean removed = false;
+
+        if (quantity < 1)
+        {
+            removed = true;
+            c.remove(productId);
+        }
+        else
+        {
+            c.getItemForProduct(productId).count = quantity;
+        }
+
+
+        Redirect response = new Redirect(new Link("admin/pos"));
+        response.json.put("removed", removed);
+        return basicPosResponse(response);
+    }
+
+    private Web.ControllerResponse.Abstract basicPosResponse(Web.ControllerResponse.Abstract response)
+    {
+        Core.Cart cart = Core.Cart.getInstance(fc.getSession());
+        response.json.put("total", cart.total());
+
+        return response;
     }
 }
 

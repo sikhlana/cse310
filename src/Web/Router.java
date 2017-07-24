@@ -117,11 +117,11 @@ public class Router
 
     public static class Match
     {
-        final public Class<? extends Abstract> controllerName;
-        final public String action;
-        final public String section;
+        private Class<? extends Abstract> controllerName;
+        private String action;
+        private String section;
 
-        public String responseType = null;
+        private String responseType = null;
 
         public Match(Class<? extends Abstract> controllerName, String action)
         {
@@ -133,6 +133,46 @@ public class Router
             this.controllerName = controllerName;
             this.action = action;
             this.section = section;
+        }
+
+        public void setControllerName(Class<? extends Abstract> controllerName)
+        {
+            this.controllerName = controllerName;
+        }
+
+        public Class<? extends Abstract> getControllerName()
+        {
+            return controllerName;
+        }
+
+        public void setAction(String action)
+        {
+            this.action = action;
+        }
+
+        public String getAction()
+        {
+            return action;
+        }
+
+        public void setSection(String section)
+        {
+            this.section = section;
+        }
+
+        public String getSection()
+        {
+            return section == null ? "" : section;
+        }
+
+        public void setResponseType(String responseType)
+        {
+            this.responseType = responseType;
+        }
+
+        public String getResponseType()
+        {
+            return responseType;
         }
     }
 

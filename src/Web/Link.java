@@ -1,8 +1,11 @@
 package Web;
 
+import Core.App;
 import Core.Entity.Abstract;
 import Web.Route.BuildInterface;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,7 +115,21 @@ public class Link
             return "/";
         }
 
-        return String.format("/%s/%s", prefix, action).replaceAll("/{2,}", "/");
+        String out = String.format("/%s/%s", prefix, action).replaceAll("/{2,}", "/");
+
+        if (params == null || params.isEmpty())
+        {
+            return out;
+        }
+
+        out += "?";
+
+        for (Map.Entry<String, Object> entry : params.entrySet())
+        {
+            out += URLEncoder.encode(entry.getKey()) + "=" + URLEncoder.encode((String) entry.getValue());
+        }
+
+        return out.substring(0, out.length() - 1);
     }
 
     public String buildLinkWithIntegerParam(String prefix, String action, Map<String, Object> data, String id, String title)

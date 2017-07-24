@@ -3,30 +3,25 @@ package Core;
 import Core.Entity.Order;
 import Core.Entity.Product;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Cart
 {
-    final private List<Cart.Item> cart = new ArrayList<>();
+    private static Map<Integer, Cart> carts = new Hashtable<>();
+    private List<Cart.Item> cart = new ArrayList<>();
 
     private Core.Entity.User user;
 
     public static Cart getInstance(Session session)
     {
-        if (!session.has("cart"))
+        if (!carts.containsKey(session.getUser().id))
         {
-            session.set("cart", new Cart());
+            carts.put(session.getUser().id, new Cart());
         }
 
-        return (Cart) session.get("cart");
+        return carts.get(session.getUser().id);
     }
 
     public boolean isEmpty()
@@ -43,7 +38,7 @@ public class Cart
     {
         for (Item i : cart)
         {
-            if (i.product.equals(product))
+            if (i.product.id == product.id)
             {
                 i.count++;
                 return i;
@@ -63,14 +58,36 @@ public class Cart
         return user;
     }
 
-    public void remove(Item item)
+    public boolean remove(Item item)
     {
-        cart.remove(item);
+        return cart.remove(item);
     }
 
-    public void remove(int index)
+    public boolean remove(int productId)
     {
-        cart.remove(index);
+        for (Item i : cart)
+        {
+            if (i.product.id == productId)
+            {
+                cart.remove(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Item getItemForProduct(int productId)
+    {
+        for (Item i : cart)
+        {
+            if (i.product.id == productId)
+            {
+                return i;
+            }
+        }
+
+        return null;
     }
 
     public void clear()
@@ -96,7 +113,24 @@ public class Cart
         // todo
     }
 
-    public class Item implements Externalizable
+    public ArrayList getProductListForView()
+    {
+        ArrayList<HashMap<String, Object>> list = new ArrayList<>(cart.size());
+
+        for (Item i : cart)
+        {
+            HashMap<String, Object> map = new HashMap<>();
+
+            map.put("product", i.product);
+            map.put("quantity", i.count);
+
+            list.add(map);
+        }
+
+        return list;
+    }
+
+    public static class Item
     {
         public Product product;
         public Map<String, Object> config;
@@ -117,36 +151,6 @@ public class Cart
         public Item(Product product)
         {
             this(product, new HashMap<>());
-        }
-
-        @Override
-        public void writeExternal(ObjectOutput out) throws IOException
-        {
-            out.writeObject(config);
-            out.writeInt(count);
-            out.writeInt(product.id);
-        }
-
-        @Override
-        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
-        {
-            config = (Map<String, Object>) in.readObject();
-            count = in.readInt();
-
-            try
-            {
-                EntityManager.Product manager = (EntityManager.Product) EntityManager.getManagerInstance(EntityManager.Product.class);
-                product = manager.queryForId(in.readInt());
-
-                if (product == null)
-                {
-                    throw new SQLException();
-                }
-            }
-            catch (SQLException e)
-            {
-                throw new IOException("Unable to resolve product id to an entity.");
-            }
         }
     }
 }

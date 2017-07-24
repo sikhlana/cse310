@@ -146,7 +146,7 @@ window.App =
             {
                 if (typeof error.response.data.error === 'string')
                 {
-                    App.alert('error', 'Error', error.response.error);
+                    App.alert('error', 'Error', error.response.data.error);
                 }
                 else if (typeof error.response.data.error === 'object')
                 {

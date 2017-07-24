@@ -18,7 +18,7 @@ ${container("title", "Products")}
                     <h3>Products</h3>
                 </div>
 
-                <ol id="supplier-list" class="item-list">
+                <ol id="product-list" class="item-list">
                     <#items as product>
                         <li>
                             <a href="${adminlink("products/edit", product)}" class="anchor">

@@ -71,18 +71,18 @@ public class FrontController
             {
                 breakLoop = true;
 
-                if (matched.responseType == null)
+                if (matched.getResponseType() == null)
                 {
-                    matched.responseType = request.isAjax() ? "json" : "html";
+                    matched.setResponseType(request.isAjax() ? "json" : "html");
                 }
 
-                Abstract controller = matched.controllerName.newInstance();
+                Abstract controller = matched.getControllerName().newInstance();
                 controller.setFrontController(this);
                 controller.setRouteMatch(matched);
 
                 try
                 {
-                    String action = WordUtils.capitalizeFully(matched.action.replaceAll("[-/]", " ").trim());
+                    String action = WordUtils.capitalizeFully(matched.getAction().replaceAll("[-/]", " ").trim());
                     action = action.replaceAll(" ", "");
 
                     if (action.isEmpty())
@@ -90,7 +90,7 @@ public class FrontController
                         action = "Index";
                     }
 
-                    params.put("_controller", matched.controllerName.getName());
+                    params.put("_controller", matched.getControllerName().getName());
                     params.put("_action", action);
 
                     controller.preDispatch(action);
@@ -104,12 +104,12 @@ public class FrontController
                         {
                             try
                             {
-                                actionMethod = matched.controllerName.getDeclaredMethod(action, ParameterBag.class);
+                                actionMethod = matched.getControllerName().getDeclaredMethod(action, ParameterBag.class);
                                 controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller, params);
                             }
                             catch (NoSuchMethodException ignore)
                             {
-                                actionMethod = matched.controllerName.getDeclaredMethod(action);
+                                actionMethod = matched.getControllerName().getDeclaredMethod(action);
                                 controllerResponse = (Web.ControllerResponse.Abstract) actionMethod.invoke(controller);
                             }
                         }
@@ -162,10 +162,10 @@ public class FrontController
                 return returnHttpRedirect((Redirect) controllerResponse);
             }*/
 
-            controllerResponse.containerParams.put("section", matched.section == null ? "" : matched.section);
+            controllerResponse.containerParams.put("section", matched.getSection());
             Web.ViewRenderer.Abstract renderer;
 
-            switch (matched.responseType)
+            switch (matched.getResponseType())
             {
                 case "html":
                     renderer = new Html(controllerResponse, this);

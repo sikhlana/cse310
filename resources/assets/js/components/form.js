@@ -332,3 +332,34 @@ App.formInputItems.Item.prototype =
 };
 
 App.register('.form-input-items', 'App.formInputItems');
+
+App.fieldCopy = function(container) { this.init(container) };
+App.fieldCopy.prototype =
+{
+    init: function(container)
+    {
+        this.container = container;
+        this.html = container.html();
+        container.html('');
+
+        this.current = $(this.html);
+        this.append();
+        this.current.data('added', false);
+    },
+
+    append: function()
+    {
+        var self = this;
+
+        this.current.find("input").eq(0).on('focus', function()
+        {
+            $(this).off('focus');
+            self.append();
+        });
+
+        this.container.append(this.current);
+        this.current = $(this.html);
+    }
+};
+
+App.register(".field-copy", "App.fieldCopy");

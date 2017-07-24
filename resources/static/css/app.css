@@ -384,18 +384,18 @@ html#admin .item-list > li > * {
   display: table-cell;
   vertical-align: middle;
 }
-html#admin .item-list > li > a.anchor {
+html#admin .item-list > li > .anchor {
   padding: 5px;
   overflow: hidden;
   text-decoration: none;
   color: #263238;
   width: 100%;
 }
-html#admin .item-list > li > a.anchor h4.title {
+html#admin .item-list > li > .anchor h4.title {
   font-size: 16px;
   float: left;
 }
-html#admin .item-list > li > a.anchor span.snippet {
+html#admin .item-list > li > .anchor span.snippet {
   font-size: 12px;
   float: left;
   margin: 12px 0 0 10px;
