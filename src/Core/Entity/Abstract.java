@@ -1,6 +1,7 @@
 package Core.Entity;
 
 import Core.EntityManager;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 
 import java.sql.SQLException;
@@ -54,6 +55,19 @@ public abstract class Abstract<T, ID> extends BaseDaoEnabled<T, ID>
         catch (NoSuchFieldException | IllegalAccessException ignored) { }
 
         return super.update();
+    }
+
+    public Dao.CreateOrUpdateStatus save() throws SQLException
+    {
+        ID id = extractId();
+        if (id != null && getDao().idExists(id))
+        {
+            return new Dao.CreateOrUpdateStatus(false, true, update());
+        }
+        else
+        {
+            return new Dao.CreateOrUpdateStatus(true, false, create());
+        }
     }
 
     public interface FieldEnum

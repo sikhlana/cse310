@@ -294,15 +294,7 @@ abstract public class Abstract
 
     protected Dao.CreateOrUpdateStatus saveEntity(Core.Entity.Abstract entity) throws SQLException
     {
-        Object id = entity.extractId();
-        if (id != null && entity.getDao().idExists(id))
-        {
-            return new Dao.CreateOrUpdateStatus(false, true, entity.update());
-        }
-        else
-        {
-            return new Dao.CreateOrUpdateStatus(true, false, entity.create());
-        }
+        return entity.save();
     }
 
     protected InputError error()
